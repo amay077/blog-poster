@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import axios from 'axios';
 import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
-import { Base64 } from 'js-base64';
+import { ulid } from 'ulid'
 
 @Component({
   selector: 'app-main',
@@ -16,19 +16,19 @@ export class MainComponent {
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
     enablePreviewContentClick: false,
-    hideIcons: ['TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
+    hideIcons: [], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
     showBorder: false,
     resizable: true,
-    customRender: {
-      image: function (href: string, title: string, text: string) {
-        let out = `<img style="max-width: 100%; border: 20px solid red;" src="${href}" alt="${text}"`;
-        if (title) {
-          out += ` title="${title}"`;
-        }
-        // out += (<any>this.options).xhtml ? "/>" : ">";
-        return out;
-      }
-    },
+    // customRender: {
+    //   image: function (href: string, title: string, text: string) {
+    //     let out = `<img style="max-width: 100%; border: 20px solid red;" src="${href}" alt="${text}"`;
+    //     if (title) {
+    //       out += ` title="${title}"`;
+    //     }
+    //     // out += (<any>this.options).xhtml ? "/>" : ">";
+    //     return out;
+    //   }
+    // },
     fontAwesomeVersion: "6",
     // customIcons: {
     //   Bold: { fontClass: 'fa-solid fa-bold' },
@@ -120,15 +120,16 @@ export class MainComponent {
     const content = await fileToBase64(file);
 
     const data = JSON.stringify({
-      "message": "upload image",
-      "content": `${content}`
+      'branch': 'develop',
+      'message': 'upload image',
+      'content': `${content}`
     });
 
-    const token = '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';
+    const token = '';
     const owner = 'amay077';
     const repo = 'blog-poster';
 
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/aaa/abcdef.png`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/aaa/${ulid()}.png`;
 
     const p = {
       method: 'PUT',
