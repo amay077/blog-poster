@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import axios from 'axios';
 import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
+import { Base64 } from 'js-base64';
 
 @Component({
   selector: 'app-main',
@@ -14,7 +16,7 @@ export class MainComponent {
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
     enablePreviewContentClick: false,
-    hideIcons: ['TogglePreview', 'FullScreen'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
+    hideIcons: ['TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
     showBorder: false,
     resizable: true,
     customRender: {
@@ -99,21 +101,71 @@ export class MainComponent {
     this.options = Object.assign({}, this.options);
   }
 
-  doUpload(files: Array<File>): Promise<Array<UploadResult>> {
+  async doUpload(files: Array<File>): Promise<Array<UploadResult>> {
     console.log(files);
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let result: Array<UploadResult> = [];
-        for (let file of files) {
-          result.push({
-            name: file.name,
-            url: `https://avatars3.githubusercontent.com/${file.name}`,
-            isImg: file.type.indexOf("image") !== -1
-          });
-        }
-        resolve(result);
-      }, 3000);
+    const file = files[0];
+
+    const fileToBase64 = (file: File): Promise<string> => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (r) => {
+          const base64str = (r.target?.result as string).replace(/data:.*\/.*;base64,/, '');
+          resolve(base64str);
+        };
+        reader.onerror = (e) => reject(e);
+      });
+    };
+
+    const content = await fileToBase64(file);
+
+    const data = JSON.stringify({
+      "message": "upload image",
+      "content": `${content}`
     });
+
+    const token = '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';
+    const owner = 'amay077';
+    const repo = 'blog-poster';
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/aaa/abcdef.png`;
+
+    const p = {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': file.type
+      },
+      body: data
+    };
+
+    const res = await fetch(url, p);
+    if (res.ok) {
+      const resJson = await res.json();
+      console.log(`${this.constructor.name} ~ doUpload ~ resJson`, resJson, resJson.content.download_url);
+
+      return [{
+        name: file.name,
+        url: resJson.content.download_url,
+        isImg: file.type.indexOf("image") !== -1
+      }];
+    } else {
+      return [];
+    }
+
+    // return new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     let result: Array<UploadResult> = [];
+    //     for (let file of files) {
+    //       result.push({
+    //         name: file.name,
+    //         url: `https://avatars3.githubusercontent.com/${file.name}`,
+    //         isImg: file.type.indexOf("image") !== -1
+    //       });
+    //     }
+    //     resolve(result);
+    //   }, 3000);
+    // });
   }
 
   onEditorLoaded(editor: any) {
