@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MainComponent } from './ui/main/main.component';
+import { FormsModule } from '@angular/forms';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { MainComponent } from './ui/main/main.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FormsModule, // make sure FormsModule is imported to make ngModel work
+    LMarkdownEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
