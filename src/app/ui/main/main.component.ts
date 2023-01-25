@@ -16,39 +16,11 @@ export class MainComponent {
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
     enablePreviewContentClick: false,
-    hideIcons: [], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
+    hideIcons: ['TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
     showBorder: false,
     resizable: true,
-    // customRender: {
-    //   image: function (href: string, title: string, text: string) {
-    //     let out = `<img style="max-width: 100%; border: 20px solid red;" src="${href}" alt="${text}"`;
-    //     if (title) {
-    //       out += ` title="${title}"`;
-    //     }
-    //     // out += (<any>this.options).xhtml ? "/>" : ">";
-    //     return out;
-    //   }
-    // },
     fontAwesomeVersion: "6",
-    // customIcons: {
-    //   Bold: { fontClass: 'fa-solid fa-bold' },
-    //   Italic: { fontClass: 'fa-solid fa-italic' },
-    //   Heading: { fontClass: 'fa-solid fa-heading' },
-    //   Reference: { fontClass: 'fa-solid fa-quote-left' },
-    //   Link: { fontClass: 'fa-solid fa-link' },
-    //   Image: { fontClass: 'fa-solid fa-image' },
-    //   UnorderedList: { fontClass: 'fa-solid fa-list-ul' },
-    //   OrderedList: { fontClass: 'fa-solid fa-list-ol' },
-    //   CodeBlock: { fontClass: 'fa-solid fa-file-code' },
-    //   ShowPreview: { fontClass: 'fa-solid fa-eye' },
-    //   HidePreview: { fontClass: 'fa-solid fa-eye-slash' },
-    //   FullScreen: { fontClass: 'fa-solid fa-maximize' },
-    //   CheckBox_UnChecked: { fontClass: 'fa-regular fa-square' },
-    //   CheckBox_Checked: { fontClass: 'fa-solid fa-check-square' }
-    // },
-    markedjsOpt: {
-      sanitize: true
-    }
+    markedjsOpt: { sanitize: true }
   };
   public content: string = '';
   public mode: string = "editor";

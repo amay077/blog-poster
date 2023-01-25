@@ -1,17 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <div>
-  <h1>
-    {{ title }}!
-  </h1>
-</div> -->
+<mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
+  <mat-drawer #drawer mode="over">
+    <div class="d-flex flex-column gap-2 p-2 h-100">
+      <button mat-stroked-button><mat-icon>add</mat-icon>New</button>
+      <button mat-stroked-button><mat-icon>file_open</mat-icon>Open...</button>
+      <button mat-stroked-button routerLink="/settings"><mat-icon>settings</mat-icon>Settings...</button>
 
-<mat-drawer-container class="example-container" style="height: 100%;" [hasBackdrop]="true">
-  <mat-drawer #drawer class="example-sidenav" mode="over">
-    <p>Auto-resizing sidenav</p>
-    <button  mat-raised-button>
-      Toggle extra text
-    </button>
-    <button mat-raised-button>Basic</button>
+      <div class="h-100"></div>
+      <span>ver: 0.0.1</span>
+    </div>
   </mat-drawer>
 
 
@@ -19,18 +15,20 @@
 <div class="d-flex flex-column" style="height: 100%;">
   <div style="height: 100px; background-color: lightblue;">
     <mat-toolbar>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-       <mat-icon>menu</mat-icon>
-     </button>
-     <span>My App</span>
-     <span class="example-spacer"></span>
-     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-       <mat-icon>favorite</mat-icon>
-     </button>
-     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-   </mat-toolbar>
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div style="width: 100%;">
+        <span>POSTARO</span>
+      </div>
+
+      <button mat-icon-button  (click)="changeMode()">
+        <mat-icon>preview</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>upload</mat-icon>
+      </button>
+    </mat-toolbar>
   </div>
   <div style="height: 100%; background-color: yellow;">
     <form novalidate #form="ngForm" style="height: 100%;" >
