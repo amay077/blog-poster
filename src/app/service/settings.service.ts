@@ -8,12 +8,12 @@ export class SettingsService {
   constructor() {
     if (this.current == null) {
       const model: AppSettings = {
-        repository_name: 'postaro',
-        repository_owner: 'amay077',
-        github_access_token: 'fsdafdarefvzkllkrtewjjsd',
+        repository_name: '',
+        repository_owner: '',
+        github_access_token: '',
         branch_name: 'main',
-        path_to_posts: 'src/posts',
-        path_to_images: 'src/images',
+        path_to_posts: '',
+        path_to_images: '',
       };
       this.save(model);
     }

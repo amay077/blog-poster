@@ -3,6 +3,7 @@ import { filter, from, orderBy } from 'leseq';
 import { ulid } from 'ulid';
 import { SettingsService } from './settings.service';
 import { Buffer } from 'buffer';
+import * as dayjs from 'dayjs';
 
 export type PostMeta = {
   name: string,
@@ -33,8 +34,9 @@ export class GithubService {
 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path_to_posts}?${query}`;
 
-    const p = {
+    const p: RequestInit = {
       method: 'GET',
+      cache: 'no-cache',
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -54,7 +56,7 @@ export class GithubService {
     }
   }
 
-  async getPostMeta(name: string): Promise<PostMeta | undefined> {
+  async getPostMeta(name: string): Promise<{ meta: PostMeta, markdown: string} | undefined> {
     const settings = this.settings.current;
     if (settings == null) {
       return undefined;
@@ -71,18 +73,19 @@ export class GithubService {
 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path_to_posts}/${name}?${query}`;
 
-    const p = {
+    const p: RequestInit = {
       method: 'GET',
+      cache: 'no-cache',
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     };
-
     const res = await fetch(url, p);
     if (res.ok) {
-      const resJson = await res.json() as PostMeta;
-      return resJson;
-      console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, resJson);
+      const meta = await res.json() as PostMeta;
+      const markdown = Buffer.from((meta as any)['content'], 'base64').toString();
+      return { meta, markdown };
+      console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, meta);
     } else {
       console.log(`${this.constructor.name} ~ ngOnInit ~ res.status`, res.status);
       return undefined;
@@ -119,7 +122,8 @@ export class GithubService {
     const owner = settings.repository_owner;
     const repo = settings.repository_name;
 
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/${ulid()}.png`;
+    const date = dayjs().format('YYYY-MM-DD');
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/$${date}-{ulid()}.png`;
 
     const p = {
       method: 'PUT',

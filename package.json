@@ -24,6 +24,7 @@
     "axios": "^1.2.3",
     "bootstrap": "^5.2.3",
     "buffer": "^6.0.3",
+    "dayjs": "^1.11.7",
     "font-awesome": "^4.7.0",
     "js-base64": "^3.7.4",
     "leseq": "^1.11.0",

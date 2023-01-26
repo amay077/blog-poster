@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import axios from 'axios';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as dayjs from 'dayjs';
 import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
-import { ulid } from 'ulid'
 
 @Component({
   selector: 'app-main',
@@ -11,8 +10,6 @@ import { ulid } from 'ulid'
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  title = "blog-poster";
-
   showPreviewPanel = false;
 
   public options: MdEditorOption = {
@@ -28,47 +25,26 @@ export class MainComponent {
   public mode: string = "editor";
 
   private meta: PostMeta | undefined;
+  fileName: string = '';
 
-  constructor(private github: GithubService, private route: ActivatedRoute) {
+  constructor(private github: GithubService, private router: Router, private route: ActivatedRoute) {
   }
 
   async ngOnInit(): Promise<void> {
 
     const name = this.route.snapshot.paramMap.get('name') ?? '';
-    const meta = await this.github.getPostMeta(name);
-    this.meta = meta;
-    console.log(`${this.constructor.name} ~ ngOnInit ~ meta`, meta);
-    if (meta == null) {
-      return;
+
+    if (name == 'new') {
+      this.fileName = '(New document)';
+    } else {
+      const post = (await this.github.getPostMeta(name))!;
+      this.meta = post.meta;
+      this.fileName = post.meta.name;
+      // const res = await fetch(post.meta.download_url);
+      // const text = await res.text();
+      const text = post.markdown;
+      this.content = text;
     }
-
-    const res = await fetch(meta.download_url);
-    const text = await res.text();
-    console.log(`${this.constructor.name} ~ ngOnInit ~ text`, text);
-
-
-
-    let contentArr = ["# Hello, Markdown Editor!"];
-    contentArr.push("```javascript ");
-    contentArr.push("function Test() {");
-    contentArr.push('	console.log("Test");');
-    contentArr.push("}");
-    contentArr.push("```");
-    contentArr.push(" Name | Type");
-    contentArr.push(" ---- | ----");
-    contentArr.push(" A | Test");
-    contentArr.push(
-      "![](http://lon-yang.github.io/markdown-editor/favicon.ico)"
-    );
-    contentArr.push("");
-    contentArr.push("- [ ] Taks A");
-    contentArr.push("- [x] Taks B");
-    contentArr.push("- test");
-    contentArr.push("");
-    contentArr.push("[Link](https://www.google.com)");
-    contentArr.push(`<img src="1" onerror="alert(1)" />`);
-    contentArr.push("");
-    this.content = text; //contentArr.join("\r\n");
   }
 
   changeMode() {
@@ -147,9 +123,12 @@ export class MainComponent {
   }
 
   async publish() {
-    if (this.meta == null) {
-      return;
+    if (this.meta != null) {
+      await this.github.uploadPost(this.content, this.meta.name, this.meta.sha);
+    } else {
+      await this.github.uploadPost(this.content, `${dayjs().format(`YYYY-MM-DD-HH-mm-ss`)}.md`, );
     }
-    await this.github.uploadPost(this.content, this.meta.name, this.meta.sha);
+
+    this.router.navigate(['/'])
   }
 }

@@ -10,46 +10,44 @@
     </div>
   </mat-drawer>
 
+  <div class="d-flex flex-column" style="height: 100%;">
+    <div>
+      <mat-toolbar>
+        <button mat-icon-button routerLink="/">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
 
+        <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
 
-<div class="d-flex flex-column" style="height: 100%;">
-  <div style="height: 100px; background-color: lightblue;">
-    <mat-toolbar>
-      <button mat-icon-button (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <div style="width: 100%;">
-        <span>POSTARO</span>
-      </div>
+        <button mat-icon-button  (click)="changeMode()">
+          <mat-icon *ngIf="mode == 'editor'">preview</mat-icon>
+          <mat-icon *ngIf="mode == 'preview'">edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="publish()">
+          <mat-icon>upload</mat-icon>
+        </button>
+      </mat-toolbar>
+    </div>
+    <div style="height: 100%;">
+      <form novalidate #form="ngForm" style="height: 100%;" >
+        <md-editor
+          #md="ngModel"
+          name="Content"
+          (onEditorLoaded)="onEditorLoaded($event)"
+          [preRender]="preRender"
+          [postRender]="postRender"
+          (onPreviewDomChanged)="onPreviewDomChanged($event)"
+          [upload]="doUpload"
+          [(ngModel)]="content"
+          [mode]="mode"
+          [options]="options"
+          height="97%"
+          required
+        >
+        </md-editor>
+      </form>
+    </div>
 
-      <button mat-icon-button  (click)="changeMode()">
-        <mat-icon>preview</mat-icon>
-      </button>
-      <button mat-icon-button (click)="publish()">
-        <mat-icon>upload</mat-icon>
-      </button>
-    </mat-toolbar>
+    <div></div>
   </div>
-  <div style="height: 100%; background-color: yellow;">
-    <form novalidate #form="ngForm" style="height: 100%;" >
-      <md-editor
-        #md="ngModel"
-        name="Content"
-        (onEditorLoaded)="onEditorLoaded($event)"
-        [preRender]="preRender"
-        [postRender]="postRender"
-        (onPreviewDomChanged)="onPreviewDomChanged($event)"
-        [upload]="doUpload"
-        [(ngModel)]="content"
-        [mode]="mode"
-        [options]="options"
-        height="100%"
-        required
-      >
-      </md-editor>
-    </form>
-  </div>
-
-  <div style="height: 100px; background-color: blue;">footer</div>
-</div>
 </mat-drawer-container>

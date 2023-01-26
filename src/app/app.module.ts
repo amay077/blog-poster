@@ -19,6 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { ListComponent } from './ui/list/list.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ListComponent } from './ui/list/list.component';
     MatNativeDateModule,
     MatInputModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
