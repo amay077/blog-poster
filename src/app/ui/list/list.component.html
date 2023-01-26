@@ -1,0 +1,41 @@
+<mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
+  <mat-drawer #drawer mode="over">
+  </mat-drawer>
+
+
+
+<div class="d-flex flex-column" style="height: 100%;">
+  <div style="background-color: lightblue;">
+    <mat-toolbar>
+      <button mat-icon-button routerLink="/main">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div style="width: 100%;">
+        <span>Posts</span>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="p-2" style="height: 100%; overflow-y: scroll;">
+
+    <div class="d-flex flex-column gap-2">
+      <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">
+        <mat-card-content class="d-flex flex-row align-items-center">
+        <div class="d-flex flex-column gap-1 w-100">
+          <span style="font-size: 0.7rem;"></span>
+          <span style="word-break: break-all;">{{item.name}}</span>
+          <span style="text-align: right; font-size: 0.5rem;"></span>
+        </div>
+        <div>
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+
+  </div>
+
+  <div style="background-color: blue;">footer</div>
+</div>
+</mat-drawer-container>

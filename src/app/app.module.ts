@@ -18,13 +18,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import { ListComponent } from './ui/list/list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    SettingsComponent
+    SettingsComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
+import { GithubService, PostMeta } from 'src/app/service/github.service';
 import { ulid } from 'ulid'
 
 @Component({
@@ -25,7 +27,27 @@ export class MainComponent {
   public content: string = '';
   public mode: string = "editor";
 
-  ngOnInit() {
+  private meta: PostMeta | undefined;
+
+  constructor(private github: GithubService, private route: ActivatedRoute) {
+  }
+
+  async ngOnInit(): Promise<void> {
+
+    const name = this.route.snapshot.paramMap.get('name') ?? '';
+    const meta = await this.github.getPostMeta(name);
+    this.meta = meta;
+    console.log(`${this.constructor.name} ~ ngOnInit ~ meta`, meta);
+    if (meta == null) {
+      return;
+    }
+
+    const res = await fetch(meta.download_url);
+    const text = await res.text();
+    console.log(`${this.constructor.name} ~ ngOnInit ~ text`, text);
+
+
+
     let contentArr = ["# Hello, Markdown Editor!"];
     contentArr.push("```javascript ");
     contentArr.push("function Test() {");
@@ -46,7 +68,7 @@ export class MainComponent {
     contentArr.push("[Link](https://www.google.com)");
     contentArr.push(`<img src="1" onerror="alert(1)" />`);
     contentArr.push("");
-    this.content = contentArr.join("\r\n");
+    this.content = text; //contentArr.join("\r\n");
   }
 
   changeMode() {
@@ -73,72 +95,21 @@ export class MainComponent {
     this.options = Object.assign({}, this.options);
   }
 
-  async doUpload(files: Array<File>): Promise<Array<UploadResult>> {
+  readonly doUpload = async (files: Array<File>): Promise<Array<UploadResult>> => {
     console.log(files);
     const file = files[0];
 
-    const fileToBase64 = (file: File): Promise<string> => {
-      return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (r) => {
-          const base64str = (r.target?.result as string).replace(/data:.*\/.*;base64,/, '');
-          resolve(base64str);
-        };
-        reader.onerror = (e) => reject(e);
-      });
-    };
+    const url = await this.github.uploadImage(file)
 
-    const content = await fileToBase64(file);
-
-    const data = JSON.stringify({
-      'branch': 'develop',
-      'message': 'upload image',
-      'content': `${content}`
-    });
-
-    const token = '';
-    const owner = 'amay077';
-    const repo = 'blog-poster';
-
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/aaa/${ulid()}.png`;
-
-    const p = {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': file.type
-      },
-      body: data
-    };
-
-    const res = await fetch(url, p);
-    if (res.ok) {
-      const resJson = await res.json();
-      console.log(`${this.constructor.name} ~ doUpload ~ resJson`, resJson, resJson.content.download_url);
-
+    if (url != null) {
       return [{
         name: file.name,
-        url: resJson.content.download_url,
+        url,
         isImg: file.type.indexOf("image") !== -1
       }];
     } else {
       return [];
     }
-
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     let result: Array<UploadResult> = [];
-    //     for (let file of files) {
-    //       result.push({
-    //         name: file.name,
-    //         url: `https://avatars3.githubusercontent.com/${file.name}`,
-    //         isImg: file.type.indexOf("image") !== -1
-    //       });
-    //     }
-    //     resolve(result);
-    //   }, 3000);
-    // });
   }
 
   onEditorLoaded(editor: any) {
@@ -173,5 +144,12 @@ export class MainComponent {
     console.log(`onPreviewDomChanged fired`);
     // console.log(dom);
     // console.log(dom.innerHTML)
+  }
+
+  async publish() {
+    if (this.meta == null) {
+      return;
+    }
+    await this.github.uploadPost(this.content, this.meta.name, this.meta.sha);
   }
 }

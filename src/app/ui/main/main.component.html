@@ -2,7 +2,7 @@
   <mat-drawer #drawer mode="over">
     <div class="d-flex flex-column gap-2 p-2 h-100">
       <button mat-stroked-button><mat-icon>add</mat-icon>New</button>
-      <button mat-stroked-button><mat-icon>file_open</mat-icon>Open...</button>
+      <button mat-stroked-button routerLink="/list"><mat-icon>file_open</mat-icon>Open...</button>
       <button mat-stroked-button routerLink="/settings"><mat-icon>settings</mat-icon>Settings...</button>
 
       <div class="h-100"></div>
@@ -25,7 +25,7 @@
       <button mat-icon-button  (click)="changeMode()">
         <mat-icon>preview</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="publish()">
         <mat-icon>upload</mat-icon>
       </button>
     </mat-toolbar>
