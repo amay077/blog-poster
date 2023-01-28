@@ -29,6 +29,7 @@
     "font-awesome": "^4.7.0",
     "js-base64": "^3.7.4",
     "leseq": "^1.11.0",
+    "ngx-loading": "^15.0.0",
     "ngx-markdown-editor": "^5.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

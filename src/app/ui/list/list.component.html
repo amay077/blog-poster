@@ -1,11 +1,16 @@
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px' }"
+></ngx-loading>
+
 <mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
   <mat-drawer #drawer mode="over">
   </mat-drawer>
 
   <div class="d-flex flex-column" style="height: 100%;">
     <div>
-      <mat-toolbar>
-        <div style="width: 100%;">
+      <mat-toolbar class="px-1">
+        <div class="mx-2" style="width: 100%;">
           <span>POSTEIRO</span>
         </div>
         <button mat-icon-button routerLink="/edit/new">

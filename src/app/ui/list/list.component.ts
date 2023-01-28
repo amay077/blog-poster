@@ -10,6 +10,7 @@ import { SettingsService } from 'src/app/service/settings.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
+  loading = true;
   items: readonly PostMeta[] = [];
 
   constructor(
@@ -19,7 +20,12 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.items = await this.github.listPosts();
+    try {
+      this.loading = true;
+      this.items = await this.github.listPosts();
+    } finally {
+      this.loading = false;
+    }
   }
 
   ngOnDestroy(): void {
