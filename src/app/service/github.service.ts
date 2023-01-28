@@ -114,7 +114,7 @@ export class GithubService {
 
     const data = JSON.stringify({
       'branch': settings.branch_name,
-      'message': 'upload image via POSTARO',
+      'message': 'upload image via POSTEIRO',
       'content': `${content}`
     });
 
@@ -156,7 +156,7 @@ export class GithubService {
     const data = JSON.stringify({
       sha,
       'branch': settings.branch_name,
-      'message': 'upload post via POSTARO',
+      'message': 'upload post via POSTEIRO',
       'content': content
     });
 

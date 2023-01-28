@@ -20,7 +20,7 @@ export class SettingsService {
   }
 
   get current(): AppSettings | undefined {
-    const str = localStorage.getItem('postaro-settings');
+    const str = localStorage.getItem('posteiro-settings');
     if (str == null) {
       return undefined;
     }
@@ -29,6 +29,6 @@ export class SettingsService {
   }
 
   save(value: AppSettings) {
-    localStorage.setItem('postaro-settings', JSON.stringify(value));
+    localStorage.setItem('posteiro-settings', JSON.stringify(value));
   }
 }
