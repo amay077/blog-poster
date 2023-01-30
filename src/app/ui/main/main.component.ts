@@ -43,6 +43,14 @@ export class MainComponent {
 
       if (name == 'new') {
         this.fileName = '(New document)';
+        this.content = `---
+templateKey: blog-post
+title: TITLE
+date: ${dayjs().toISOString()}
+tags:
+  - Tag1
+---
+`
       } else {
         const post = (await this.github.getPostMeta(name))!;
         this.meta = post.meta;
