@@ -32,6 +32,7 @@ jobs:
 
       - run: echo "pub ブランチに変更（GitHub Pages）"
       - run: git checkout pub --force
+      - run: git pull
       - run: echo "生成した SPA を pub の docs にコピー"
       - run: rm -rf ./docs/*
       - run: cp -r ./dist/spa/* ./docs
