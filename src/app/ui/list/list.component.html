@@ -3,48 +3,42 @@
   [config]="{ backdropBorderRadius: '3px' }"
 ></ngx-loading>
 
-<mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
-  <mat-drawer #drawer mode="over">
-  </mat-drawer>
-
-  <div class="d-flex flex-column" style="height: 100%;">
-    <div>
-      <mat-toolbar class="px-1">
-        <div class="mx-2" style="width: 100%;">
-          <span>POSTEIRO</span>
-        </div>
-        <button mat-icon-button routerLink="/edit/new">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_horiz</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/settings">
-            <mat-icon>settings</mat-icon>
-            <span>Setting...</span>
-          </button>
-        </mat-menu>
-
-      </mat-toolbar>
-    </div>
-    <div class="p-2" style="height: 100%; overflow-y: scroll;">
-
-      <div class="container-fluid d-flex flex-column gap-2">
-        <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">
-          <mat-card-content class="d-flex flex-row align-items-center">
-          <div class="d-flex flex-column gap-1 w-100">
-            <span style="font-size: 0.7rem;"></span>
-            <span style="word-break: break-all;">{{item.name}}</span>
-            <span style="text-align: right; font-size: 0.5rem;"></span>
-          </div>
-          <div>
-            <mat-icon>arrow_forward</mat-icon>
-          </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-    <div></div>
+<mat-toolbar class="px-1" style="position: fixed; top: 0px; z-index: 1; min-height: 60px; max-height: 60px; opacity: 90%;">
+  <div class="mx-2" style="width: 100%;">
+    <span>POSTEIRO</span>
   </div>
-</mat-drawer-container>
+  <button mat-icon-button routerLink="/edit/new">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/settings">
+      <mat-icon>settings</mat-icon>
+      <span>Setting...</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="vh-100" style="z-index: 0; margin-top: calc(60px + 10px);">
+  <div class="container-fluid d-flex flex-column gap-2">
+    <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">
+      <mat-card-content class="d-flex flex-row align-items-center">
+      <div class="d-flex flex-column gap-1 w-100">
+        <span style="font-size: 0.7rem;"></span>
+        <span style="word-break: break-all;">{{item.name}}</span>
+        <span style="text-align: right; font-size: 0.5rem;"></span>
+      </div>
+      <div>
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- botton margin -->
+    <div style="padding-bottom: 15px;"></div>
+  </div>
+</div>
+
+
