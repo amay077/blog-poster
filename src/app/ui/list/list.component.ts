@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { from, orderBy, filter } from 'leseq';
 import { CacheService } from 'src/app/service/cache.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
-import { SettingsService } from 'src/app/service/settings.service';
+
+import { browserRefresh } from '../../app.component';
 
 @Component({
   selector: 'app-list',
@@ -19,6 +19,9 @@ export class ListComponent implements OnInit, OnDestroy {
     private cache: CacheService,
     private router: Router,
   ) {
+    if (browserRefresh) {
+      this.cache.clearPosts();
+    }
 
     this.items = this.cache.loadPosts();
     if ((this.items?.length ?? 0) <= 0) {
