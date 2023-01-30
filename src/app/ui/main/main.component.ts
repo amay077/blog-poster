@@ -7,6 +7,13 @@ import { CacheService } from 'src/app/service/cache.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
 
+function isSmartPhone() {
+  if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 @Component({
   selector: 'app-main',
@@ -46,6 +53,8 @@ tags:
 `;
 
   private readonly contentChange$ = new Subject<string>();
+  isMobile: boolean = false;
+  showPreview = false;
 
   constructor(
     private github: GithubService,
@@ -54,6 +63,7 @@ tags:
     private router: Router,
     private route: ActivatedRoute,
   ) {
+    this.isMobile = isSmartPhone();
   }
 
   back() {
@@ -104,11 +114,17 @@ tags:
   }
 
   changeMode() {
-    if (this.mode === "editor") {
-      this.mode = "preview";
+    if (this.isMobile) {
+      if (this.mode === "editor") {
+        this.mode = "preview";
+      } else {
+        this.mode = "editor";
+      }
     } else {
-      this.mode = "editor";
+      this.options.showPreviewPanel = !this.options.showPreviewPanel;
+      this.options = Object.assign({}, this.options);
     }
+    this.showPreview = !this.showPreview;
   }
 
   toggleShowPreviewPanel() {

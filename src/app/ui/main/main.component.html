@@ -12,8 +12,8 @@
       <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
 
       <button mat-icon-button  (click)="changeMode()">
-        <mat-icon *ngIf="mode == 'editor'">preview</mat-icon>
-        <mat-icon *ngIf="mode == 'preview'">edit</mat-icon>
+        <mat-icon *ngIf="!showPreview">preview</mat-icon>
+        <mat-icon *ngIf="showPreview">edit</mat-icon>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_horiz</mat-icon>
