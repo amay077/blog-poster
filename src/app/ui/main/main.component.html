@@ -19,13 +19,17 @@
         <mat-icon>more_horiz</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="delete()">
+        <button mat-menu-item (click)="discard()" [disabled]="!dirty">
+          <mat-icon>undo</mat-icon>
+          <span>Discard changes</span>
+        </button>
+        <button mat-menu-item (click)="delete()" [disabled]="isNew">
           <mat-icon>delete</mat-icon>
-          <span>Delete</span>
+          <span>Delete post</span>
         </button>
         <button mat-menu-item (click)="publish()" [disabled]="!dirty">
           <mat-icon>upload</mat-icon>
-          <span>Publish</span>
+          <span>Publish post</span>
         </button>
       </mat-menu>
 

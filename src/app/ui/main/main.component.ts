@@ -24,8 +24,8 @@ export class MainComponent implements OnInit, OnDestroy {
   loading = false;
   showPreviewPanel = false;
   dirty = false;
+  isNew = false;
 
-  private isNew = false;
   private readonly onDestroy$ = new Subject();
 
   public options: MdEditorOption = {
@@ -230,6 +230,18 @@ tags:
     this.loading = false;
 
     this.router.navigate(['/'])
+  }
+
+  async discard() {
+    if (!confirm('Realy discard changes?')) {
+      return;
+    }
+
+    this.loading = true;
+
+    this.draft.deleteDraft(this.meta?.name ?? 'new');
+    location.reload();
+    this.loading = false;
   }
 
   onModelChange(content: string) {
