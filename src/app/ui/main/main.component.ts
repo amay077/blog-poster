@@ -1,18 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { CacheService } from 'src/app/service/cache.service';
+import { DraftService } from 'src/app/service/draft.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnInit, OnDestroy {
   loading = false;
   showPreviewPanel = false;
   dirty = false;
+
+  private isNew = false;
+  private readonly onDestroy$ = new Subject();
 
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
@@ -29,7 +36,24 @@ export class MainComponent {
   private meta: PostMeta | undefined;
   fileName: string = '';
 
-  constructor(private github: GithubService, private router: Router, private route: ActivatedRoute) {
+  private readonly template = `---
+templateKey: blog-post
+title: TITLE
+date: ${dayjs().toISOString()}
+tags:
+  - Tag1
+---
+`;
+
+  private readonly contentChange$ = new Subject<string>();
+
+  constructor(
+    private github: GithubService,
+    private cache: CacheService,
+    private draft: DraftService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
   }
 
   back() {
@@ -38,33 +62,45 @@ export class MainComponent {
 
   async ngOnInit(): Promise<void> {
 
+    this.contentChange$
+      .pipe(debounceTime(500), takeUntil(this.onDestroy$))
+      .subscribe(content => {
+        this.draft.saveDraft(this.meta?.name ?? 'new', content);
+    });
+
     try {
       this.loading = true;
-      const name = this.route.snapshot.paramMap.get('name') ?? '';
+      const name = this.route.snapshot.paramMap.get('name') ?? 'new';
+      const backup = this.draft.loadDraft(name ?? 'new');
 
+      let restore = false;
+      if (backup != null) {
+        restore = confirm(`Restore from backup?`);
+        if (!restore) {
+          this.draft.deleteDraft(name);
+        }
+      }
+
+      this.isNew = name == 'new';
       if (name == 'new') {
         this.fileName = '(New document)';
-        this.content = `---
-templateKey: blog-post
-title: TITLE
-date: ${dayjs().toISOString()}
-tags:
-  - Tag1
----
-`
+        this.content = restore ? backup! : this.template;
       } else {
         const post = (await this.github.getPostMeta(name))!;
         this.meta = post.meta;
         this.fileName = post.meta.name;
-        // const res = await fetch(post.meta.download_url);
-        // const text = await res.text();
         const text = post.markdown;
-        this.content = text;
+        this.content = restore ? backup! : text;
       }
+
 
     } finally {
       this.loading = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(null);
   }
 
   changeMode() {
@@ -143,16 +179,45 @@ tags:
   }
 
   async publish() {
+    if (!confirm('Realy publish?')) {
+      return;
+    }
+
+    this.loading = true;
+
     if (this.meta != null) {
       await this.github.uploadPost(this.content, this.meta.name, this.meta.sha);
     } else {
       await this.github.uploadPost(this.content, `${dayjs().format(`YYYY-MM-DD-HH-mm-ss`)}.md`, );
     }
 
+    this.draft.deleteDraft(this.meta?.name ?? 'new');
+    this.cache.clearPosts();
+    this.loading = false;
+
     this.router.navigate(['/'])
   }
 
-  onModelChange(event: any) {
+  async delete() {
+    if (!confirm('Realy delete?')) {
+      return;
+    }
+
+    this.loading = true;
+
+    if (this.meta?.sha != null) {
+      await this.github.deletePost(this.meta.name, this.meta.sha);
+    }
+
+    this.draft.deleteDraft(this.meta?.name ?? 'new');
+    this.cache.clearPosts();
+    this.loading = false;
+
+    this.router.navigate(['/'])
+  }
+
+  onModelChange(content: string) {
     this.dirty = true;
+    this.contentChange$.next(content);
   }
 }

@@ -185,4 +185,39 @@ export class GithubService {
       return undefined;
     }
   }
+
+  async deletePost(name: string, sha: string): Promise<void | undefined> {
+    const settings = this.settings.current;
+    if (settings == null) {
+      return undefined;
+    }
+
+    const data = JSON.stringify({
+      sha,
+      'branch': settings.branch_name,
+      'message': 'delete post via POSTEIRO',
+    });
+
+    const token = settings.github_access_token;
+    const owner = settings.repository_owner;
+    const repo = settings.repository_name;
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_posts}/${name}`;
+
+    const p = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: data
+    };
+
+    const res = await fetch(url, p);
+    if (res.ok) {
+      return;
+    } else {
+      return undefined;
+    }
+  }
 }

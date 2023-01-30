@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { from, orderBy, filter } from 'leseq';
+import { CacheService } from 'src/app/service/cache.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
 import { SettingsService } from 'src/app/service/settings.service';
 
@@ -15,11 +16,11 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(
     private github: GithubService,
+    private cache: CacheService,
     private router: Router,
   ) {
 
-    const itemsStr = localStorage.getItem('posteiro-items');
-    this.items = itemsStr != null ? JSON.parse(itemsStr) : [];
+    this.items = this.cache.loadPosts();
     if ((this.items?.length ?? 0) <= 0) {
       (async () => {
         await this.reload();
@@ -38,7 +39,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.items = [];
       this.items = await this.github.listPosts();
-      localStorage.setItem('posteiro-items', JSON.stringify(this.items));
+      this.cache.savePosts(this.items);
     } finally {
       this.loading = false;
     }
