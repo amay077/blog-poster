@@ -83,14 +83,7 @@ tags:
       const name = this.route.snapshot.paramMap.get('name') ?? 'new';
       const backup = this.draft.loadDraft(name ?? 'new');
 
-      let restore = false;
-      if (backup != null) {
-        restore = confirm(`Restore from backup?`);
-        if (!restore) {
-          this.draft.deleteDraft(name);
-        }
-      }
-
+      const restore = backup != null;
       this.isNew = name == 'new';
       if (name == 'new') {
         this.fileName = '(New document)';
