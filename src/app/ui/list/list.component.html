@@ -1,6 +1,5 @@
 <ngx-loading
   [show]="loading"
-  [config]="{ backdropBorderRadius: '3px' }"
 ></ngx-loading>
 
 <mat-toolbar class="px-1" style="position: fixed; top: 0px; z-index: 1; min-height: 60px; max-height: 60px; opacity: 90%;">
@@ -24,7 +23,7 @@
   </mat-menu>
 </mat-toolbar>
 
-<div class="vh-100" style="z-index: 0; margin-top: calc(60px + 10px);">
+<div class="h-100" style="z-index: 0; margin-top: calc(60px + 10px);">
   <div class="container-fluid d-flex flex-column gap-2">
 
     <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">

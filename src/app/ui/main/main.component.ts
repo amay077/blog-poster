@@ -10,6 +10,7 @@ import { GithubService, PostMeta } from 'src/app/service/github.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
+  loading = false;
   showPreviewPanel = false;
 
   public options: MdEditorOption = {
@@ -36,18 +37,24 @@ export class MainComponent {
 
   async ngOnInit(): Promise<void> {
 
-    const name = this.route.snapshot.paramMap.get('name') ?? '';
+    try {
+      this.loading = true;
+      const name = this.route.snapshot.paramMap.get('name') ?? '';
 
-    if (name == 'new') {
-      this.fileName = '(New document)';
-    } else {
-      const post = (await this.github.getPostMeta(name))!;
-      this.meta = post.meta;
-      this.fileName = post.meta.name;
-      // const res = await fetch(post.meta.download_url);
-      // const text = await res.text();
-      const text = post.markdown;
-      this.content = text;
+      if (name == 'new') {
+        this.fileName = '(New document)';
+      } else {
+        const post = (await this.github.getPostMeta(name))!;
+        this.meta = post.meta;
+        this.fileName = post.meta.name;
+        // const res = await fetch(post.meta.download_url);
+        // const text = await res.text();
+        const text = post.markdown;
+        this.content = text;
+      }
+
+    } finally {
+      this.loading = false;
     }
   }
 
