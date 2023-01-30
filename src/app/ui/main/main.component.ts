@@ -12,13 +12,14 @@ import { GithubService, PostMeta } from 'src/app/service/github.service';
 export class MainComponent {
   loading = false;
   showPreviewPanel = false;
+  dirty = false;
 
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
     enablePreviewContentClick: false,
     hideIcons: ['TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
     showBorder: false,
-    resizable: true,
+    resizable: false,
     fontAwesomeVersion: "6",
     markedjsOpt: { sanitize: true }
   };
@@ -149,5 +150,9 @@ tags:
     }
 
     this.router.navigate(['/'])
+  }
+
+  onModelChange(event: any) {
+    this.dirty = true;
   }
 }

@@ -2,56 +2,51 @@
   [show]="loading"
 ></ngx-loading>
 
-<mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
-  <mat-drawer #drawer mode="over">
-    <div class="d-flex flex-column gap-2 p-2 h-100">
-      <button mat-stroked-button><mat-icon>add</mat-icon>New</button>
-      <button mat-stroked-button routerLink="/list"><mat-icon>file_open</mat-icon>Open...</button>
-      <button mat-stroked-button routerLink="/settings"><mat-icon>settings</mat-icon>Settings...</button>
+<div class="d-flex flex-column" style="height: 100%;">
+  <div>
+    <mat-toolbar class="px-1">
+      <button mat-icon-button (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
 
-      <div class="h-100"></div>
-      <span>ver: 0.0.1</span>
-    </div>
-  </mat-drawer>
+      <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
 
-  <div class="d-flex flex-column" style="height: 100%;">
-    <div>
-      <mat-toolbar class="px-1">
-        <button mat-icon-button (click)="back()">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-
-        <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
-
-        <button mat-icon-button  (click)="changeMode()">
-          <mat-icon *ngIf="mode == 'editor'">preview</mat-icon>
-          <mat-icon *ngIf="mode == 'preview'">edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="publish()">
+      <button mat-icon-button  (click)="changeMode()">
+        <mat-icon *ngIf="mode == 'editor'">preview</mat-icon>
+        <mat-icon *ngIf="mode == 'preview'">edit</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="publish()" [disabled]="!dirty">
           <mat-icon>upload</mat-icon>
+          <span>Publish</span>
         </button>
-      </mat-toolbar>
-    </div>
-    <div style="height: 100%;">
-      <form novalidate #form="ngForm" style="height: 100%;" >
-        <md-editor
-          #md="ngModel"
-          name="Content"
-          (onEditorLoaded)="onEditorLoaded($event)"
-          [preRender]="preRender"
-          [postRender]="postRender"
-          (onPreviewDomChanged)="onPreviewDomChanged($event)"
-          [upload]="doUpload"
-          [(ngModel)]="content"
-          [mode]="mode"
-          [options]="options"
-          height="97%"
-          required
-        >
-        </md-editor>
-      </form>
-    </div>
+      </mat-menu>
 
-    <div></div>
+    </mat-toolbar>
   </div>
-</mat-drawer-container>
+  <div style="height: 100%;">
+    <form novalidate #form="ngForm" style="height: 100%;" >
+      <md-editor
+        #md="ngModel"
+        name="Content"
+        (onEditorLoaded)="onEditorLoaded($event)"
+        [preRender]="preRender"
+        [postRender]="postRender"
+        (onPreviewDomChanged)="onPreviewDomChanged($event)"
+        [upload]="doUpload"
+        [(ngModel)]="content"
+        [mode]="mode"
+        [options]="options"
+        (ngModelChange)="onModelChange($event)"
+        height="99%"
+        required
+      >
+      </md-editor>
+    </form>
+  </div>
+
+  <div></div>
+</div>
