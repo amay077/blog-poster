@@ -30,6 +30,10 @@ export class MainComponent {
   constructor(private github: GithubService, private router: Router, private route: ActivatedRoute) {
   }
 
+  back() {
+    history.back();
+  }
+
   async ngOnInit(): Promise<void> {
 
     const name = this.route.snapshot.paramMap.get('name') ?? '';

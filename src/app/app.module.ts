@@ -21,6 +21,7 @@ import { MatCardModule} from '@angular/material/card';
 import { ListComponent } from './ui/list/list.component';
 import { MatMenuModule} from '@angular/material/menu';
 import { NgxLoadingModule } from "ngx-loading";
+import { NgxScrollTopModule } from 'ngx-scrolltop';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { NgxLoadingModule } from "ngx-loading";
     ReactiveFormsModule,
     MatMenuModule,
     NgxLoadingModule.forRoot({}),
+    NgxScrollTopModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

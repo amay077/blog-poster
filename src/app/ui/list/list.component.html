@@ -7,6 +7,9 @@
   <div class="mx-2" style="width: 100%;">
     <span>POSTEIRO</span>
   </div>
+  <button mat-icon-button (click)="reload()">
+    <mat-icon>refresh</mat-icon>
+  </button>
   <button mat-icon-button routerLink="/edit/new">
     <mat-icon>add</mat-icon>
   </button>
@@ -23,6 +26,7 @@
 
 <div class="vh-100" style="z-index: 0; margin-top: calc(60px + 10px);">
   <div class="container-fluid d-flex flex-column gap-2">
+
     <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">
       <mat-card-content class="d-flex flex-row align-items-center">
       <div class="d-flex flex-column gap-1 w-100">
@@ -41,4 +45,4 @@
   </div>
 </div>
 
-
+<ngx-scrolltop></ngx-scrolltop>
