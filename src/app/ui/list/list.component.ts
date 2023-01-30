@@ -19,11 +19,7 @@ export class ListComponent implements OnInit, OnDestroy {
   ) {
 
     const itemsStr = localStorage.getItem('posteiro-items');
-    if (itemsStr == null) {
-      return;
-    }
-    this.items = JSON.parse(itemsStr);
-
+    this.items = itemsStr != null ? JSON.parse(itemsStr) : [];
     if ((this.items?.length ?? 0) <= 0) {
       (async () => {
         await this.reload();
