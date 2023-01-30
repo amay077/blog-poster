@@ -19,6 +19,10 @@
         <mat-icon>more_horiz</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="delete()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
         <button mat-menu-item (click)="publish()" [disabled]="!dirty">
           <mat-icon>upload</mat-icon>
           <span>Publish</span>
