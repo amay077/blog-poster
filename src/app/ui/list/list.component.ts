@@ -18,7 +18,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {
 
-    const itemsStr = localStorage.getItem('posteiro_items');
+    const itemsStr = localStorage.getItem('posteiro-items');
     if (itemsStr == null) {
       return;
     }
@@ -42,7 +42,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.items = [];
       this.items = await this.github.listPosts();
-      localStorage.setItem('posteiro_items', JSON.stringify(this.items));
+      localStorage.setItem('posteiro-items', JSON.stringify(this.items));
     } finally {
       this.loading = false;
     }
