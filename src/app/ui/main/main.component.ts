@@ -68,8 +68,8 @@ tags:
     if (!this.isMobile) {
       this.options.showPreviewPanel = true;
       this.options = Object.assign({}, this.options);
+      this.showPreview = true;
     }
-    this.showPreview = true;
   }
 
   back() {
