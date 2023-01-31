@@ -32,7 +32,6 @@
           <span>Publish post</span>
         </button>
       </mat-menu>
-
     </mat-toolbar>
   </div>
   <div style="height: 100%;">
@@ -52,6 +51,15 @@
         height="99%"
         required
       >
+
+        <div custom-btns>
+          <input #imgInput type="file" style="display: none" accept="image/*" (change)="uploadImg($event)" />
+          <button type="button" class="btn btn-sm btn-default" (click)="imgInput.click()">
+            <i class="fa fa-file-image-o" aria-hidden="true"></i>
+          </button>
+
+        </div>
+
       </md-editor>
     </form>
   </div>

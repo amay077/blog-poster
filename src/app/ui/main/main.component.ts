@@ -31,7 +31,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public options: MdEditorOption = {
     showPreviewPanel: this.showPreviewPanel,
     enablePreviewContentClick: false,
-    hideIcons: ['TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
+    hideIcons: ['Image', 'TogglePreview'], // ['Bold', 'Italic', 'Heading', 'Refrence', 'Link', 'Image', 'Ul', 'Ol', 'Code', 'TogglePreview', 'FullScreen']. Default is empty
     showBorder: false,
     resizable: false,
     fontAwesomeVersion: "6",
@@ -140,16 +140,40 @@ tags:
     console.log(files);
     const file = files[0];
 
+    const uploadResult = await this.uploadFile(file);
+    if (uploadResult != null) {
+      return [uploadResult];
+    } else {
+      return [];
+    }
+  }
+
+  private async uploadFile(file: File): Promise<UploadResult | null> {
     const url = await this.github.uploadImage(file)
 
     if (url != null) {
-      return [{
+      return {
         name: file.name,
         url,
         isImg: file.type.indexOf("image") !== -1
-      }];
+      };
     } else {
-      return [];
+      return null;
+    }
+  }
+
+  async uploadImg(evt: any) {
+    const file: File = evt?.target?.files[0];
+    if (!file) return;
+
+    try {
+      this.loading = true;
+      const res = await this.uploadFile(file);
+      if (res != null) {
+        this.content += `![${res.name}](${res.url})`;
+      }
+    } finally {
+      this.loading = false;
     }
   }
 

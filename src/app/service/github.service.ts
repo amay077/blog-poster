@@ -123,7 +123,7 @@ export class GithubService {
     const repo = settings.repository_name;
 
     const date = dayjs().format('YYYY-MM-DD');
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/$${date}-{ulid()}.png`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/${date}-${ulid()}.png`;
 
     const p = {
       method: 'PUT',
