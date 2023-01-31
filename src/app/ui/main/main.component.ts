@@ -64,6 +64,12 @@ tags:
     private route: ActivatedRoute,
   ) {
     this.isMobile = isSmartPhone();
+
+    if (!this.isMobile) {
+      this.options.showPreviewPanel = true;
+      this.options = Object.assign({}, this.options);
+    }
+    this.showPreview = true;
   }
 
   back() {
