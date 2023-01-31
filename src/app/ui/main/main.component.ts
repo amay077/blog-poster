@@ -6,6 +6,10 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { CacheService } from 'src/app/service/cache.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
+import { load } from 'js-yaml'
+import { from } from 'leseq';
+import { chunkWithSkip } from 'src/app/misc/leseq-ext';
+import { parse } from 'src/app/misc/front-matter-parser';
 
 function isSmartPhone() {
   if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
@@ -25,6 +29,8 @@ export class MainComponent implements OnInit, OnDestroy {
   showPreviewPanel = false;
   dirty = false;
   isNew = false;
+  isMobile: boolean = false;
+  showPreview = false;
 
   private readonly onDestroy$ = new Subject();
 
@@ -53,8 +59,7 @@ tags:
 `;
 
   private readonly contentChange$ = new Subject<string>();
-  isMobile: boolean = false;
-  showPreview = false;
+  private frontMatter: any = null;
 
   constructor(
     private github: GithubService,
@@ -90,6 +95,7 @@ tags:
       const backup = this.draft.loadDraft(name ?? 'new');
 
       const restore = backup != null;
+      this.dirty = restore;
       this.isNew = name == 'new';
       if (name == 'new') {
         this.fileName = '(New document)';
@@ -197,18 +203,34 @@ tags:
 
   preRender(mdContent: string) {
     console.log(`preRender fired`);
-    // return new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve(mdContent);
-    //   }, 4000);
-    // })
-    return mdContent;
+
+    try {
+      const yml = parse(mdContent.substring(0, 300));
+      const offset = yml?.length ?? 0;
+      this.frontMatter = yml?.data;
+      return mdContent.substring(offset);
+    } catch (error) {
+      console.log(`Parse front matter failed.`, error);
+      return mdContent;
+    }
   }
 
   postRender(html: any) {
     console.log(`postRender fired`);
-    // return '<h1>Test</h1>';
-    return html;
+
+    let pre = '';
+    if (this.frontMatter != null) {
+      const keys = Object.keys(this.frontMatter);
+      const kv = [];
+      for (const key of keys) {
+        const v = this.frontMatter[key];
+        kv.push(`<tr><td style="border-width: 1px; padding: 5px;">${key}</td><td style="border-width: 1px; padding: 5px;">${v}</td></tr>`)
+      }
+
+      pre = `<table border="1" style="border-collapse: collapse;">${kv.join('')}</table><hr>`;
+    }
+
+    return `${pre}${html}`;
   }
 
   onPreviewDomChanged(dom: HTMLElement) {
