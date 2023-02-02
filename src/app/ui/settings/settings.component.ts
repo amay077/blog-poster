@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { SettingsService } from 'src/app/service/settings.service';
-import { AppSettings } from 'src/app/types/app-settings';
+import { RepositorySettings } from 'src/app/types/app-settings';
 
 @Component({
   selector: 'app-settings',
@@ -15,7 +15,7 @@ export class SettingsComponent implements OnDestroy {
   public readonly settingForm: FormGroup;
 
   constructor(private settings: SettingsService) {
-    const model = settings.current ?? {} as AppSettings;
+    const model = settings.repository ?? {} as RepositorySettings;
     const controls: any = {};
     for (const prop of Object.keys(model)) {
       controls[prop] = [(model as any)[prop]];
@@ -27,7 +27,7 @@ export class SettingsComponent implements OnDestroy {
     this.settingForm.valueChanges
       .pipe(debounceTime(500), takeUntil(this.onDestroy$))
       .subscribe(form => {
-      this.settings.save(form);
+      this.settings.repository  = form;
     });
   }
 

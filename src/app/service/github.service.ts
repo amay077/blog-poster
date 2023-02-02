@@ -18,7 +18,7 @@ export class GithubService {
   constructor(private settings: SettingsService) { }
 
   async listPosts(): Promise<readonly PostMeta[]> {
-    const settings = this.settings.current;
+    const settings = this.settings.repository;
     if (settings == null) {
       return [];
     }
@@ -57,7 +57,7 @@ export class GithubService {
   }
 
   async getPostMeta(name: string): Promise<{ meta: PostMeta, markdown: string} | undefined> {
-    const settings = this.settings.current;
+    const settings = this.settings.repository;
     if (settings == null) {
       return undefined;
     }
@@ -93,7 +93,7 @@ export class GithubService {
   }
 
   async uploadImage(file: File): Promise<string | undefined> {
-    const settings = this.settings.current;
+    const settings = this.settings.repository;
     if (settings == null) {
       return undefined;
     }
@@ -146,7 +146,7 @@ export class GithubService {
   }
 
   async uploadPost(markdown: string, name: string, sha?: string): Promise<string | undefined> {
-    const settings = this.settings.current;
+    const settings = this.settings.repository;
     if (settings == null) {
       return undefined;
     }
@@ -187,7 +187,7 @@ export class GithubService {
   }
 
   async deletePost(name: string, sha: string): Promise<void | undefined> {
-    const settings = this.settings.current;
+    const settings = this.settings.repository;
     if (settings == null) {
       return undefined;
     }

@@ -1,4 +1,4 @@
-export type AppSettings = {
+export type RepositorySettings = {
   repository_name: string,
   repository_owner: string,
   github_access_token: string,
