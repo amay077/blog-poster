@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes } from '@angular/router';
+import { UiSettingsFrontMatterComponent } from './ui-settings-front-matter/ui-settings-front-matter.component';
+import { UiSettingsRepositoryComponent } from './ui-settings-repository/ui-settings-repository.component';
 import { ListComponent } from './ui/list/list.component';
 import { MainComponent } from './ui/main/main.component';
 import { SettingsComponent } from './ui/settings/settings.component';
@@ -10,6 +12,8 @@ const routes: Routes = [
   { path: 'edit/:name', component: MainComponent },
   { path: 'list', component: ListComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'settings/repo', component: UiSettingsRepositoryComponent },
+  { path: 'settings/matter', component: UiSettingsFrontMatterComponent },
 ];
 
 @NgModule({

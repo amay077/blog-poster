@@ -1,0 +1,31 @@
+<div class="d-flex flex-column" style="height: 100%;">
+  <div>
+    <mat-toolbar class="px-1">
+      <button mat-icon-button routerLink="/settings">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div style="width: 100%;">
+        <span>Settings - Front Matter</span>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div style="height: 100%;">
+
+    <form [formGroup]="settingForm">
+      <div class="container">
+        <div class="row pt-4">
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Front Matter</mat-label>
+              <textarea matInput formControlName="body" required placeholder="" rows="14"></textarea>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div></div>
+</div>

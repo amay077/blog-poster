@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RepositorySettings } from '../types/app-settings';
+import { FrontMatterSettings, RepositorySettings } from '../types/app-settings';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +33,24 @@ export class SettingsService {
   }
   set repository(value: RepositorySettings) {
     localStorage.setItem('posteiro-settings-repository', JSON.stringify(value));
+  }
+
+
+  get frontMatter(): FrontMatterSettings {
+    const str = localStorage.getItem('posteiro-settings-matters');
+    if (str == null) {
+      return {
+        body: `templateKey: blog-post
+title: {{title}}
+date: {{date}}
+tags:
+`,
+      };
+    }
+
+    return JSON.parse(str);
+  }
+  set frontMatter(value: FrontMatterSettings) {
+    localStorage.setItem('posteiro-settings-matters', JSON.stringify(value));
   }
 }

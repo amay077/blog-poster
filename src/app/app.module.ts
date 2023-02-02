@@ -22,6 +22,8 @@ import { ListComponent } from './ui/list/list.component';
 import { MatMenuModule} from '@angular/material/menu';
 import { NgxLoadingModule } from "ngx-loading";
 import { NgxScrollTopModule } from 'ngx-scrolltop';
+import { UiSettingsFrontMatterComponent } from './ui-settings-front-matter/ui-settings-front-matter.component';
+import { UiSettingsRepositoryComponent } from './ui-settings-repository/ui-settings-repository.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { NgxScrollTopModule } from 'ngx-scrolltop';
     AppComponent,
     MainComponent,
     SettingsComponent,
-    ListComponent
+    ListComponent,
+    UiSettingsFrontMatterComponent,
+    UiSettingsRepositoryComponent
   ],
   imports: [
     BrowserModule,

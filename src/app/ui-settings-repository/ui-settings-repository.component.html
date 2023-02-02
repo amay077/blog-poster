@@ -1,0 +1,66 @@
+<div class="d-flex flex-column" style="height: 100%;">
+  <div>
+    <mat-toolbar class="px-1">
+      <button mat-icon-button routerLink="/settings">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div style="width: 100%;">
+        <span>Settings - Repository</span>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div style="height: 100%;">
+
+    <form [formGroup]="settingForm">
+      <div class="container">
+        <div class="row pt-4">
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Repository Name</mat-label>
+              <input matInput formControlName="repository_name" required placeholder="e.g. github.com/uuidjs/uuid → uuid">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Repository Owner</mat-label>
+              <input matInput formControlName="repository_owner" required placeholder="e.g. github.com/uuidjs/uuid → uuidjs">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Personal Access Token</mat-label>
+              <input matInput formControlName="github_access_token" type="password" required placeholder="Personal Access Token">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Branch Name</mat-label>
+              <input matInput formControlName="branch_name" required placeholder="eg. main">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Path to posts</mat-label>
+              <input matInput formControlName="path_to_posts" placeholder="e.g. src/posts">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Path to images</mat-label>
+              <input matInput formControlName="path_to_images" placeholder="e.g. src/images">
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div></div>
+</div>

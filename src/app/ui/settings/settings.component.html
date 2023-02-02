@@ -1,73 +1,28 @@
-<mat-drawer-container style="height: 100%;" [hasBackdrop]="true">
-  <mat-drawer #drawer mode="over">
-  </mat-drawer>
-
-
-
-<div class="d-flex flex-column" style="height: 100%;">
-  <div>
-    <mat-toolbar class="px-1">
-      <button mat-icon-button routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <div style="width: 100%;">
-        <span>Settings</span>
-      </div>
-    </mat-toolbar>
+<mat-toolbar class="px-1" style="position: fixed; top: 0px; z-index: 1; min-height: 60px; max-height: 60px; opacity: 90%;">
+  <button mat-icon-button routerLink="/">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="mx-2" style="width: 100%;">
+    <span>Settings</span>
   </div>
-  <div style="height: 100%;">
+</mat-toolbar>
 
-    <form [formGroup]="settingForm">
-      <div class="container">
-        <div class="row pt-4">
+<div style="z-index: 0; padding-top: calc(60px + 10px);">
+  <div class="container d-flex flex-column gap-2">
 
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Repository Name</mat-label>
-              <input matInput formControlName="repository_name" required placeholder="e.g. github.com/uuidjs/uuid → uuid">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Repository Owner</mat-label>
-              <input matInput formControlName="repository_owner" required placeholder="e.g. github.com/uuidjs/uuid → uuidjs">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Personal Access Token</mat-label>
-              <input matInput formControlName="github_access_token" type="password" required placeholder="Personal Access Token">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Branch Name</mat-label>
-              <input matInput formControlName="branch_name" required placeholder="eg. main">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Path to posts</mat-label>
-              <input matInput formControlName="path_to_posts" placeholder="e.g. src/posts">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Path to images</mat-label>
-              <input matInput formControlName="path_to_images" placeholder="e.g. src/images">
-            </mat-form-field>
-          </div>
-
-        </div>
+    <mat-card style="cursor: pointer;" *ngFor="let m of menus;" [routerLink]="m.link">
+      <mat-card-content class="d-flex flex-row align-items-center">
+      <div class="d-flex flex-column gap-1 w-100">
+        <span style="font-size: 0.7rem;"></span>
+        <span style="word-break: break-all;">{{m.title}}</span>
+        <span style="text-align: right; font-size: 0.5rem;"></span>
       </div>
-    </form>
+      <div>
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-
-  <div></div>
 </div>
-</mat-drawer-container>
+
+<ngx-scrolltop></ngx-scrolltop>

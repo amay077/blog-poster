@@ -6,10 +6,8 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { CacheService } from 'src/app/service/cache.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
-import { load } from 'js-yaml'
-import { from } from 'leseq';
-import { chunkWithSkip } from 'src/app/misc/leseq-ext';
 import { parse } from 'src/app/misc/front-matter-parser';
+import { SettingsService } from 'src/app/service/settings.service';
 
 function isSmartPhone() {
   if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
@@ -49,14 +47,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private meta: PostMeta | undefined;
   fileName: string = '';
 
-  private readonly template = `---
-templateKey: blog-post
-title: TITLE
-date: ${dayjs().toISOString()}
-tags:
-  - Tag1
----
-`;
+  private readonly template: string;
 
   private readonly contentChange$ = new Subject<string>();
   private frontMatter: any = null;
@@ -67,6 +58,7 @@ tags:
     private draft: DraftService,
     private router: Router,
     private route: ActivatedRoute,
+    private settings: SettingsService,
   ) {
     this.isMobile = isSmartPhone();
 
@@ -75,6 +67,15 @@ tags:
       this.options = Object.assign({}, this.options);
       this.showPreview = true;
     }
+
+    const matter = settings.frontMatter;
+
+    const rendered = matter.body
+    .replace('{{title}}', 'NEW POST')
+    .replace('{{date}}', dayjs().toISOString());
+    this.template = `---
+${rendered}
+---`;
   }
 
   back() {

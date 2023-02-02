@@ -12,23 +12,12 @@ import { RepositorySettings } from 'src/app/types/app-settings';
 export class SettingsComponent implements OnDestroy {
   private readonly onDestroy$ = new Subject();
 
-  public readonly settingForm: FormGroup;
+  readonly menus = [
+    { title: 'Repository', link: '/settings/repo' },
+    { title: 'Front Matter', link: '/settings/matter' },
+  ];
 
-  constructor(private settings: SettingsService) {
-    const model = settings.repository ?? {} as RepositorySettings;
-    const controls: any = {};
-    for (const prop of Object.keys(model)) {
-      controls[prop] = [(model as any)[prop]];
-    }
-
-    const builder = new FormBuilder();
-    this.settingForm = builder.group(controls);
-
-    this.settingForm.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.onDestroy$))
-      .subscribe(form => {
-      this.settings.repository  = form;
-    });
+  constructor() {
   }
 
   ngOnDestroy(): void {
