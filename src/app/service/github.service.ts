@@ -101,16 +101,23 @@ export class GithubService {
     const fileToBase64 = (file: File): Promise<string> => {
       return new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
+        console.log('readAsDataURL start', new Date().getTime());
         reader.readAsDataURL(file);
         reader.onload = (r) => {
-          const base64str = (r.target?.result as string).replace(/data:.*\/.*;base64,/, '');
+          console.log('readAsDataURL end', new Date().getTime());
+          console.log('replace start', new Date().getTime());
+          const prefix = `data:${file.type}:base64,`;
+          const base64str = (r.target?.result as string).substring(prefix.length);
+          console.log('replace end', new Date().getTime());
           resolve(base64str);
         };
         reader.onerror = (e) => reject(e);
       });
     };
 
+    console.log('fileToBase64 start', new Date().getTime());
     const content = await fileToBase64(file);
+    console.log('fileToBase64 end', new Date().getTime());
 
     const data = JSON.stringify({
       'branch': settings.branch_name,
