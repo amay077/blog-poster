@@ -24,6 +24,7 @@ import { NgxLoadingModule } from "ngx-loading";
 import { NgxScrollTopModule } from 'ngx-scrolltop';
 import { UiSettingsFrontMatterComponent } from './ui-settings-front-matter/ui-settings-front-matter.component';
 import { UiSettingsRepositoryComponent } from './ui-settings-repository/ui-settings-repository.component';
+import { AboutComponent } from './ui/about/about.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { UiSettingsRepositoryComponent } from './ui-settings-repository/ui-setti
     SettingsComponent,
     ListComponent,
     UiSettingsFrontMatterComponent,
-    UiSettingsRepositoryComponent
+    UiSettingsRepositoryComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
