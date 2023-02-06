@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CacheService } from 'src/app/service/cache.service';
 import { GithubService, PostMeta } from 'src/app/service/github.service';
+import { SettingsService } from 'src/app/service/settings.service';
 
 import { browserRefresh } from '../../app.component';
 
@@ -13,12 +14,17 @@ import { browserRefresh } from '../../app.component';
 export class ListComponent implements OnInit, OnDestroy {
   loading = false;
   items: readonly PostMeta[] = [];
+  readonly hasRepositorySettings: boolean;
 
   constructor(
     private github: GithubService,
     private cache: CacheService,
     private router: Router,
+    private settings: SettingsService,
   ) {
+
+    this.hasRepositorySettings = settings?.repository?.github_access_token != null;
+
     if (browserRefresh) {
       this.cache.clearPosts();
     }

@@ -28,7 +28,7 @@
 </mat-toolbar>
 
 <div class="h-100" style="z-index: 0; padding-top: calc(60px + 10px);">
-  <div class="container-fluid d-flex flex-column gap-2">
+  <div *ngIf="hasRepositorySettings" class="container-fluid d-flex flex-column gap-2">
 
     <mat-card *ngFor="let item of items" (click)="onClickItem(item)" style="cursor: pointer;">
       <mat-card-content class="d-flex flex-row align-items-center">
@@ -45,6 +45,11 @@
 
     <!-- botton margin -->
     <div style="padding-bottom: 15px;"></div>
+  </div>
+
+  <div *ngIf="!hasRepositorySettings" class="d-flex flex-column align-items-center p-2" >
+    <span class="mt-4 pt-4">First of all, let’s start with repository setting. </span>
+    <a class="mt-4" routerLink="/settings/repo">Go to Settings -> Repository</a>
   </div>
 </div>
 
