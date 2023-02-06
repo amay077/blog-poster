@@ -2,67 +2,62 @@
   [show]="loading"
 ></ngx-loading>
 
-<div class="d-flex flex-column" style="height: 100%;">
-  <div>
-    <mat-toolbar class="px-1">
-      <button mat-icon-button (click)="back()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
+<mat-toolbar class="px-1" style="position: fixed; top: 0px; z-index: 1; min-height: 60px; max-height: 60px; opacity: 90%;">
+  <button mat-icon-button (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
 
-      <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
+  <span style="width: 100%; overflow: hidden; text-overflow: ellipsis;">{{fileName}}</span>
 
-      <button mat-icon-button  (click)="changeMode()">
-        <mat-icon *ngIf="!showPreview">preview</mat-icon>
-        <mat-icon *ngIf="showPreview">edit</mat-icon>
-      </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_horiz</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="discard()" [disabled]="!dirty">
-          <mat-icon>undo</mat-icon>
-          <span>Discard changes</span>
+  <button mat-icon-button  (click)="changeMode()">
+    <mat-icon *ngIf="!showPreview">preview</mat-icon>
+    <mat-icon *ngIf="showPreview">edit</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="discard()" [disabled]="!dirty">
+      <mat-icon>undo</mat-icon>
+      <span>Discard changes</span>
+    </button>
+    <button mat-menu-item (click)="delete()" [disabled]="isNew">
+      <mat-icon>delete</mat-icon>
+      <span>Delete post</span>
+    </button>
+    <button mat-menu-item (click)="publish()" [disabled]="!dirty">
+      <mat-icon>upload</mat-icon>
+      <span>Publish post</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="h-100" style="z-index: 0; padding-top: calc(60px);">
+  <form novalidate #form="ngForm" style="height: 100%;" >
+    <md-editor
+      #md="ngModel"
+      name="Content"
+      (onEditorLoaded)="onEditorLoaded($event)"
+      [preRender]="preRender"
+      [postRender]="postRender"
+      (onPreviewDomChanged)="onPreviewDomChanged($event)"
+      [upload]="doUpload"
+      [(ngModel)]="content"
+      [mode]="mode"
+      [options]="options"
+      (ngModelChange)="onModelChange($event)"
+      height="99%"
+      required
+    >
+
+      <div custom-btns>
+        <input #imgInput type="file" style="display: none" accept="image/*" (change)="uploadImg($event)" (click)="onInputFileReset($event)" />
+        <button type="button" class="btn btn-sm btn-default" (click)="imgInput.click()">
+          <i class="fa fa-file-image-o" aria-hidden="true"></i>
         </button>
-        <button mat-menu-item (click)="delete()" [disabled]="isNew">
-          <mat-icon>delete</mat-icon>
-          <span>Delete post</span>
-        </button>
-        <button mat-menu-item (click)="publish()" [disabled]="!dirty">
-          <mat-icon>upload</mat-icon>
-          <span>Publish post</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar>
-  </div>
-  <div style="height: 100%;">
-    <form novalidate #form="ngForm" style="height: 100%;" >
-      <md-editor
-        #md="ngModel"
-        name="Content"
-        (onEditorLoaded)="onEditorLoaded($event)"
-        [preRender]="preRender"
-        [postRender]="postRender"
-        (onPreviewDomChanged)="onPreviewDomChanged($event)"
-        [upload]="doUpload"
-        [(ngModel)]="content"
-        [mode]="mode"
-        [options]="options"
-        (ngModelChange)="onModelChange($event)"
-        height="99%"
-        required
-      >
 
-        <div custom-btns>
-          <input #imgInput type="file" style="display: none" accept="image/*" (change)="uploadImg($event)" (click)="onInputFileReset($event)" />
-          <button type="button" class="btn btn-sm btn-default" (click)="imgInput.click()">
-            <i class="fa fa-file-image-o" aria-hidden="true"></i>
-          </button>
+      </div>
 
-        </div>
-
-      </md-editor>
-    </form>
-  </div>
-
-  <div></div>
+    </md-editor>
+  </form>
 </div>
