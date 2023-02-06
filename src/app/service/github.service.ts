@@ -129,8 +129,10 @@ export class GithubService {
     const owner = settings.repository_owner;
     const repo = settings.repository_name;
 
+    const extPos = file.name?.lastIndexOf('.') + 1 ?? -1;
+    const ext = extPos > 0 ? file.name.substring(extPos) : 'png';
     const date = dayjs().format('YYYY-MM-DD');
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/${date}-${ulid()}.png`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${settings.path_to_images}/${date}-${ulid()}.${ext}`;
 
     const p = {
       method: 'PUT',
