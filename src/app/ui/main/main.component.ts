@@ -149,6 +149,10 @@ ${rendered}
     this.options = Object.assign({}, this.options);
   }
 
+  onInputFileReset(event: any) {
+    event.target.value = '';
+  }
+
   readonly doUpload = async (files: Array<File>): Promise<Array<UploadResult>> => {
     console.log(files);
     const file = files[0];
