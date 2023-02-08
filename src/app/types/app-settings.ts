@@ -10,3 +10,13 @@ export type RepositorySettings = {
 export type FrontMatterSettings = {
   body: string,
 };
+
+export type Settings = {
+  posteiro_settings: {
+    file_version: string,
+    app_version: string,
+    export_at: string,
+  },
+  repository: Omit<RepositorySettings, 'github_access_token'>,
+  front_matter: FrontMatterSettings,
+}

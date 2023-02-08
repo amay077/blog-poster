@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { saveAs } from 'file-saver';
 import { SettingsService } from 'src/app/service/settings.service';
-import { RepositorySettings } from 'src/app/types/app-settings';
 
 @Component({
   selector: 'app-settings',
@@ -17,10 +16,29 @@ export class SettingsComponent implements OnDestroy {
     { title: 'Front Matter', link: '/settings/matter' },
   ];
 
-  constructor() {
+  constructor(private settings: SettingsService) {
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next(null);
+  }
+
+  async onImport(event: any) {
+    const file: File = event?.target?.files[0];
+    if (!file) return;
+
+    const res = await this.settings.import(file);
+    alert(res.success ? 'Imported!' : `Import failed - ${res.error}`);
+  }
+
+  onInputFileReset(event: any) {
+    event.target.value = '';
+  }
+
+  onExport() {
+    const json = this.settings.export();
+    var blob = new Blob([json], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "posteiro_settings.json");
+    alert('Exported!');
   }
 }
