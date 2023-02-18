@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1676722104275,
+  "timestamp": 1676723754790,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.c29f1c0ddebf29c4.js",
+        "./main.49f90aec90e615c2.js",
         "./manifest.webmanifest",
         "./polyfills.3b4377f0b7f6b7dd.js",
         "./runtime.1e19399f031878d3.js",
@@ -482,6 +482,7 @@
         "./assets/icons/icon-512x512.png",
         "./assets/icons/icon-72x72.png",
         "./assets/icons/icon-96x96.png",
+        "./assets/logo.jpg",
         "./fontawesome-webfont.8a7cb27d142e3e19.ttf",
         "./fontawesome-webfont.cf011583fb81df9f.woff",
         "./fontawesome-webfont.da909aa098b0ee2d.svg",
@@ -944,13 +945,14 @@
     "./assets/icons/icon-512x512.png": "bcf2fdf7d60e74a889cc30abbf30b606ca6b5881",
     "./assets/icons/icon-72x72.png": "23d8f29ca783b20d0f13505e8cc8ab4dccbf0634",
     "./assets/icons/icon-96x96.png": "acfb760d33f6f8e4da72b7e1df54eaf15f1396c4",
+    "./assets/logo.jpg": "4515be282f766432ef4ae1236ee38e319a7c97e0",
     "./favicon.ico": "532edf0df1d452b83896ddd69265eaa722bf2e8b",
     "./fontawesome-webfont.8a7cb27d142e3e19.ttf": "13b1eab65a983c7a73bc7997c479d66943f7c6cb",
     "./fontawesome-webfont.cf011583fb81df9f.woff": "28b782240b3e76db824e12c02754a9731a167527",
     "./fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "./fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
-    "./index.html": "991668a6656e3c68a6503e01a6bc192fcde98254",
-    "./main.c29f1c0ddebf29c4.js": "30ae8317db142ccdb6b9cd084c484c8f254ae67a",
+    "./index.html": "2b26523a7ce5b2a7b344eb159acb9a5b5e62f84b",
+    "./main.49f90aec90e615c2.js": "0b48d74c8a1a9d896b7b14ff3290c3417fbdabb7",
     "./manifest.webmanifest": "f4ee64ddb9663e141ce127f8d8ebb9f1db21e7d1",
     "./polyfills.3b4377f0b7f6b7dd.js": "42638f349f5923d480d5e1b1de5d67981e9983a4",
     "./runtime.1e19399f031878d3.js": "492e8d8f71d89ca36a6b39e87635c661995f03d8",
