@@ -75,7 +75,9 @@ export class MainComponent implements OnInit, OnDestroy {
     .replace('{{date}}', dayjs().toISOString());
     this.template = `---
 ${rendered}
----`;
+---
+
+`;
   }
 
   back() {
