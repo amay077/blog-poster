@@ -1,0 +1,29 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.main-card {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 1.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    cursor: pointer;
+  }
+
+  .main-card {
+    width: calc(50% - 0.5rem - 1rem - 1rem);
+  }
+}
