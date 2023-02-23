@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
-import { filter, from, orderBy } from 'leseq';
+import { filter, from, map, orderBy } from 'leseq';
 import { ulid } from 'ulid';
 import { SettingsService } from './settings.service';
 import { Buffer } from 'buffer';
 import * as dayjs from 'dayjs';
+import { parse } from '../misc/front-matter-parser';
+import { CacheService } from './cache.service';
 
 export type PostMeta = {
   name: string,
   download_url: string,
   sha?: string,
+  title?: string,
+  posted_at?: Date
  };
 
 @Injectable({
   providedIn: 'root'
 })
 export class GithubService {
-  constructor(private settings: SettingsService) { }
+  constructor(
+    private settings: SettingsService,
+    private cache: CacheService) { }
 
   async listPosts(): Promise<readonly PostMeta[]> {
     const settings = this.settings.repository;
@@ -43,9 +49,18 @@ export class GithubService {
     };
 
     const res = await fetch(url, p);
+    const metaCache = this.cache.metaCache;
     if (res.ok) {
       const resJson = await res.json() as PostMeta[];
       return from(resJson).pipe(
+        map(x => {
+          const cachedMeta = metaCache.find(y => y.download_url == x.download_url)
+          if (cachedMeta != null) {
+            x.title = cachedMeta.title;
+            x.posted_at = cachedMeta.posted_at;
+          }
+          return x;
+        }),
         orderBy(x => x.name, 'desc'),
         filter(x => x.name.toLowerCase().endsWith('md') || x.name.toLowerCase().endsWith('markdown'))
       ).toArray();
@@ -82,10 +97,29 @@ export class GithubService {
     };
     const res = await fetch(url, p);
     if (res.ok) {
-      const meta = await res.json() as PostMeta;
-      const markdown = Buffer.from((meta as any)['content'], 'base64').toString();
-      return { meta, markdown };
+      const json = await res.json() as {
+        name: string,
+        download_url: string,
+        sha?: string,
+        content: string,
+       };
+      const meta: PostMeta = {
+        name: json.name,
+        download_url: json.download_url,
+        sha: json.sha,
+      }
+      const markdown = Buffer.from(json.content, 'base64').toString();
+
+      const frontMatter = parse(markdown);
+      meta.title = frontMatter?.data?.title;
+      meta.posted_at = ((date) => {
+        if (date == null) { return undefined; }
+        return new Date(date);
+      })(frontMatter?.data?.date);
+      this.cache.putMeta(meta);
+
       console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, meta);
+      return { meta, markdown };
     } else {
       console.log(`${this.constructor.name} ~ ngOnInit ~ res.status`, res.status);
       return undefined;

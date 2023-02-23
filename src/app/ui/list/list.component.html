@@ -33,10 +33,17 @@
 
     <mat-card *ngFor="let item of items" (click)="onClickItem(item)" class="main-card">
       <mat-card-content class="d-flex flex-row align-items-center">
-      <div class="d-flex flex-column gap-1 w-100">
-        <span style="font-size: 0.7rem;"></span>
-        <span style="word-break: break-all;">{{item.name}}</span>
-        <span style="text-align: right; font-size: 0.5rem;"></span>
+      <div class="d-flex flex-column justify-content-between gap-1 w-100">
+        <ng-container *ngIf="item?.title != null">
+          <span style="font-size: 0.7rem;">{{item.name}}</span>
+          <span style="word-break: break-all;">{{item?.title}}</span>
+          <span style="text-align: right; font-size: 0.5rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
+        </ng-container>
+        <ng-container *ngIf="item?.title == null">
+          <span style="font-size: 0.7rem;"></span>
+          <span style="word-break: break-all;">{{item.name}}</span>
+          <span style="text-align: right; font-size: 0.5rem;"></span>
+        </ng-container>
       </div>
       <div>
         <mat-icon>arrow_forward</mat-icon>

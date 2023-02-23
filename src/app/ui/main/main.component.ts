@@ -58,7 +58,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private draft: DraftService,
     private router: Router,
     private route: ActivatedRoute,
-    private settings: SettingsService,
+    settings: SettingsService,
   ) {
     this.isMobile = isSmartPhone();
 
