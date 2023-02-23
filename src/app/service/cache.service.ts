@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PostMeta } from './github.service';
+import { GHContentMeta, PostMatter, PostMeta } from './github.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,12 +7,12 @@ import { PostMeta } from './github.service';
 export class CacheService {
   constructor() { }
 
-  loadPosts(): PostMeta[] {
+  loadPostMetas(): PostMeta[] {
     const itemsStr = localStorage.getItem('posteiro-items');
     const list: PostMeta[] = itemsStr != null ? JSON.parse(itemsStr) : [];
-    const metaCache = this.metaCache;
+    const metaCache = this.postMatterCache;
     return list.map(x => {
-      const cachedMeta = metaCache.find(y => y.download_url == x.download_url);
+      const cachedMeta = metaCache.get(x.download_url);
       if (cachedMeta != null) {
         x.title = cachedMeta.title;
         x.posted_at = cachedMeta.posted_at;
@@ -21,31 +21,34 @@ export class CacheService {
     });
   }
 
-  savePosts(items: readonly PostMeta[]) {
-    localStorage.setItem('posteiro-items', JSON.stringify(items));
-  }
-
-  get metaCache(): PostMeta[] {
-    const itemsStr = localStorage.getItem('posteiro-item-metas');
-    return itemsStr != null ? JSON.parse(itemsStr) : [];
-  }
-  set metaCache(items: readonly PostMeta[]) {
-    localStorage.setItem('posteiro-item-metas', JSON.stringify(items));
-  }
-
-
-  clearPosts() {
+  clearPostMetas() {
     localStorage.removeItem('posteiro-items');
   }
 
-  putMeta(meta: PostMeta) {
-    const metas = this.metaCache;
-    const hitIndex = metas.findIndex(x => x.download_url == meta.download_url);
-    if (hitIndex >= 0) {
-      metas[hitIndex] = meta;
+  saveGHContentMetas(items: readonly GHContentMeta[]) {
+    localStorage.setItem('posteiro-items', JSON.stringify(items));
+  }
+
+  get postMatterCache(): Map<string, PostMatter> {
+    const itemsStr = localStorage.getItem('posteiro-post-matters');
+    const list: PostMatter[] = itemsStr != null ? JSON.parse(itemsStr) : [];
+    return list.reduce((pre, cur) => {
+      pre.set(cur.download_url, cur);
+      return pre;
+    }, new Map<string, PostMatter>())
+  }
+  set postMatterCache(items: Map<string, PostMatter>) {
+    localStorage.setItem('posteiro-post-matters', JSON.stringify(Array.from(items.values())));
+  }
+
+  putPostMatter(meta: PostMatter) {
+    const metas = this.postMatterCache;
+    const hit = metas.get(meta.download_url);
+    if (hit != null) {
+      metas.set(hit.download_url, meta);
     } else {
-      metas.push(meta);
+      metas.set(meta.download_url, meta);
     }
-    this.metaCache = metas;
+    this.postMatterCache = metas;
   }
 }

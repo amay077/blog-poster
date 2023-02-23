@@ -7,13 +7,19 @@ import * as dayjs from 'dayjs';
 import { parse } from '../misc/front-matter-parser';
 import { CacheService } from './cache.service';
 
-export type PostMeta = {
+export type GHContentMeta = {
   name: string,
   download_url: string,
   sha?: string,
-  title?: string,
-  posted_at?: Date
- };
+};
+
+export type PostMatter = {
+  download_url: string,
+  title: string,
+  posted_at: Date
+};
+
+export type PostMeta = GHContentMeta & Partial<PostMatter>;
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +29,7 @@ export class GithubService {
     private settings: SettingsService,
     private cache: CacheService) { }
 
-  async listPosts(): Promise<readonly PostMeta[]> {
+  async listPostMetas(): Promise<readonly PostMeta[]> {
     const settings = this.settings.repository;
     if (settings == null) {
       return [];
@@ -49,29 +55,29 @@ export class GithubService {
     };
 
     const res = await fetch(url, p);
-    const metaCache = this.cache.metaCache;
+    const matterCache = this.cache.postMatterCache;
     if (res.ok) {
-      const resJson = await res.json() as PostMeta[];
+      const resJson = await res.json() as GHContentMeta[];
       return from(resJson).pipe(
         map(x => {
-          const cachedMeta = metaCache.find(y => y.download_url == x.download_url)
+          const metaFull: PostMeta = JSON.parse(JSON.stringify(x));
+          const cachedMeta = matterCache.get(x.download_url)
           if (cachedMeta != null) {
-            x.title = cachedMeta.title;
-            x.posted_at = cachedMeta.posted_at;
+            metaFull.title = cachedMeta.title;
+            metaFull.posted_at = cachedMeta.posted_at;
           }
-          return x;
+          return metaFull;
         }),
         orderBy(x => x.name, 'desc'),
         filter(x => x.name.toLowerCase().endsWith('md') || x.name.toLowerCase().endsWith('markdown'))
       ).toArray();
-      console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, resJson);
     } else {
       console.log(`${this.constructor.name} ~ ngOnInit ~ res.status`, res.status);
       return [];
     }
   }
 
-  async getPostMeta(name: string): Promise<{ meta: PostMeta, markdown: string} | undefined> {
+  async getPost(name: string): Promise<{ meta: PostMeta, markdown: string} | undefined> {
     const settings = this.settings.repository;
     if (settings == null) {
       return undefined;
@@ -116,7 +122,13 @@ export class GithubService {
         if (date == null) { return undefined; }
         return new Date(date);
       })(frontMatter?.data?.date);
-      this.cache.putMeta(meta);
+      if (meta.title != undefined && meta.posted_at != undefined) {
+        this.cache.putPostMatter({
+          download_url: meta.download_url,
+          title: meta.title,
+          posted_at: meta.posted_at
+        });
+      }
 
       console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, meta);
       return { meta, markdown };

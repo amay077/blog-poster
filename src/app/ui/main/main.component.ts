@@ -5,7 +5,7 @@ import { MdEditorOption, UploadResult } from 'ngx-markdown-editor';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { CacheService } from 'src/app/service/cache.service';
 import { DraftService } from 'src/app/service/draft.service';
-import { GithubService, PostMeta } from 'src/app/service/github.service';
+import { GithubService, GHContentMeta } from 'src/app/service/github.service';
 import { parse } from 'src/app/misc/front-matter-parser';
 import { SettingsService } from 'src/app/service/settings.service';
 
@@ -44,7 +44,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public content: string = '';
   public mode: string = "editor";
 
-  private meta: PostMeta | undefined;
+  private meta: GHContentMeta | undefined;
   fileName: string = '';
 
   private readonly template: string;
@@ -104,7 +104,7 @@ ${rendered}
         this.fileName = '(New document)';
         this.content = restore ? backup! : this.template;
       } else {
-        const post = (await this.github.getPostMeta(name))!;
+        const post = (await this.github.getPost(name))!;
         this.meta = post.meta;
         this.fileName = post.meta.name;
         const text = post.markdown;
@@ -260,7 +260,7 @@ ${rendered}
     }
 
     this.draft.deleteDraft(this.meta?.name ?? 'new');
-    this.cache.clearPosts();
+    this.cache.clearPostMetas();
     this.loading = false;
 
     this.router.navigate(['/'])
@@ -278,7 +278,7 @@ ${rendered}
     }
 
     this.draft.deleteDraft(this.meta?.name ?? 'new');
-    this.cache.clearPosts();
+    this.cache.clearPostMetas();
     this.loading = false;
 
     this.router.navigate(['/'])
