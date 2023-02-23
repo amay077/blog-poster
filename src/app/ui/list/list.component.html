@@ -37,12 +37,12 @@
         <ng-container *ngIf="item?.title != null">
           <span style="font-size: 0.7rem;">{{item.name}}</span>
           <span style="word-break: break-all;">{{item?.title}}</span>
-          <span style="text-align: right; font-size: 0.5rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
+          <span style="text-align: right; font-size: 0.7rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
         </ng-container>
         <ng-container *ngIf="item?.title == null">
           <span style="font-size: 0.7rem;"></span>
           <span style="word-break: break-all;">{{item.name}}</span>
-          <span style="text-align: right; font-size: 0.5rem;"></span>
+          <span style="text-align: right; font-size: 0.7rem;"></span>
         </ng-container>
       </div>
       <div>
