@@ -37,7 +37,10 @@
         <ng-container *ngIf="item?.title != null">
           <span style="font-size: 0.7rem;">{{item.name}}</span>
           <span style="word-break: break-all;">{{item?.title}}</span>
-          <span style="text-align: right; font-size: 0.7rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <span style="text-align: right; font-size: 0.7rem;">{{item?.tags}}</span>
+            <span style="text-align: right; font-size: 0.7rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
+          </div>
         </ng-container>
         <ng-container *ngIf="item?.title == null">
           <span style="font-size: 0.7rem;"></span>

@@ -16,7 +16,8 @@ export type GHContentMeta = {
 export type PostMatter = {
   download_url: string,
   title: string,
-  posted_at: Date
+  posted_at: Date,
+  tags: string[]
 };
 
 export type PostMeta = GHContentMeta & Partial<PostMatter>;
@@ -65,6 +66,7 @@ export class GithubService {
           if (cachedMeta != null) {
             metaFull.title = cachedMeta.title;
             metaFull.posted_at = cachedMeta.posted_at;
+            metaFull.tags = cachedMeta.tags;
           }
           return metaFull;
         }),
@@ -122,11 +124,13 @@ export class GithubService {
         if (date == null) { return undefined; }
         return new Date(date);
       })(frontMatter?.data?.date);
+      meta.tags = frontMatter?.data?.tags;
       if (meta.title != undefined && meta.posted_at != undefined) {
         this.cache.putPostMatter({
           download_url: meta.download_url,
           title: meta.title,
-          posted_at: meta.posted_at
+          posted_at: meta.posted_at,
+          tags: meta.tags ?? []
         });
       }
 
@@ -234,6 +238,23 @@ export class GithubService {
     if (res.ok) {
       const resJson = await res.json();
       console.log(`${this.constructor.name} ~ doUpload ~ resJson`, resJson, resJson.content.download_url);
+
+      const download_url = resJson.content.download_url;
+      const frontMatter = parse(markdown);
+      const title = frontMatter?.data?.title;
+      const posted_at = ((date) => {
+        if (date == null) { return undefined; }
+        return new Date(date);
+      })(frontMatter?.data?.date);
+      const tags = frontMatter?.data?.tags;
+      if (title != undefined && posted_at != undefined) {
+        this.cache.putPostMatter({
+          download_url,
+          title,
+          posted_at,
+          tags: tags ?? []
+        });
+      }
 
       return resJson.content.download_url;
     } else {

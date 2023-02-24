@@ -16,6 +16,7 @@ export class CacheService {
       if (cachedMeta != null) {
         x.title = cachedMeta.title;
         x.posted_at = cachedMeta.posted_at;
+        x.tags =  cachedMeta.tags;
       }
       return x;
     });
