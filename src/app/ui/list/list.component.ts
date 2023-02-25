@@ -42,14 +42,14 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    window.requestIdleCallback(this.idleTask);
+    window?.requestIdleCallback(this.idleTask);
   }
 
   ngOnDestroy(): void {
     this.destroyed = true;
   }
 
-  readonly idleTask = async () => {
+  private readonly idleTask = async () => {
     console.log('It is idle.');
 
     await new Promise(resolve => setTimeout(resolve, 3000)) // 3秒待つ
