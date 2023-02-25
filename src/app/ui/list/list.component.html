@@ -35,19 +35,19 @@
       <mat-card-content class="d-flex flex-row align-items-center">
       <div class="d-flex flex-column justify-content-between gap-1 w-100">
         <ng-container *ngIf="item?.title != null">
-          <span style="font-size: 0.7rem;">{{item.name}}</span>
-          <span style="word-break: break-all;">{{item?.title}}</span>
-          <div style="display: flex; flex-direction: row; justify-content: space-between;">
-            <div style="text-align: right; font-size: 0.7rem; display: flex; flex-direction: row; gap: 0.2rem;">
+          <span class="card-header">{{item.name}}</span>
+          <span class="card-title">{{item?.title}}</span>
+          <div class="card-footer">
+            <div class="card-footer-tags">
               <span *ngFor="let tag of item.tags ?? []" >#{{tag}}</span>
             </div>
-            <span style="text-align: right; font-size: 0.7rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
+            <span class="card-footer-date">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
           </div>
         </ng-container>
         <ng-container *ngIf="item?.title == null">
-          <span style="font-size: 0.7rem;"></span>
-          <span style="word-break: break-all;">{{item.name}}</span>
-          <span style="text-align: right; font-size: 0.7rem;"></span>
+          <span class="card-header"></span>
+          <span class="card-title">{{item.name}}</span>
+          <div class="card-footer"></div>
         </ng-container>
       </div>
       <div>
