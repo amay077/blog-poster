@@ -38,7 +38,9 @@
           <span style="font-size: 0.7rem;">{{item.name}}</span>
           <span style="word-break: break-all;">{{item?.title}}</span>
           <div style="display: flex; flex-direction: row; justify-content: space-between;">
-            <span style="text-align: right; font-size: 0.7rem;">{{item?.tags}}</span>
+            <div style="text-align: right; font-size: 0.7rem; display: flex; flex-direction: row; gap: 0.2rem;">
+              <span *ngFor="let tag of item.tags ?? []" >#{{tag}}</span>
+            </div>
             <span style="text-align: right; font-size: 0.7rem;">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
           </div>
         </ng-container>
