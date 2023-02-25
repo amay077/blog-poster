@@ -2,21 +2,19 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { SettingsService } from 'src/app/service/settings.service';
-import { FrontMatterSettings, RepositorySettings } from 'src/app/types/app-settings';
+import { RepositorySettings } from 'src/app/types/app-settings';
 
 @Component({
-  selector: 'app-ui-settings-front-matter',
-  templateUrl: './ui-settings-front-matter.component.html',
-  styleUrls: ['./ui-settings-front-matter.component.scss']
+  templateUrl: './settings-repository.component.html',
+  styleUrls: ['./settings-repository.component.scss']
 })
-export class UiSettingsFrontMatterComponent implements OnDestroy {
-
+export class SettingsRepositoryComponent implements OnDestroy {
   private readonly onDestroy$ = new Subject();
 
   public readonly settingForm: FormGroup;
 
   constructor(private settings: SettingsService) {
-    const model = settings.frontMatter ?? {} as FrontMatterSettings;
+    const model = settings.repository ?? {} as RepositorySettings;
     const controls: any = {};
     for (const prop of Object.keys(model)) {
       controls[prop] = [(model as any)[prop]];
@@ -28,7 +26,7 @@ export class UiSettingsFrontMatterComponent implements OnDestroy {
     this.settingForm.valueChanges
       .pipe(debounceTime(500), takeUntil(this.onDestroy$))
       .subscribe(form => {
-      this.settings.frontMatter  = form;
+      this.settings.repository  = form;
     });
   }
 

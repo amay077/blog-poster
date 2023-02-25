@@ -22,10 +22,10 @@ import { ListComponent } from './ui/list/list.component';
 import { MatMenuModule} from '@angular/material/menu';
 import { NgxLoadingModule } from "ngx-loading";
 import { NgxScrollTopModule } from 'ngx-scrolltop';
-import { UiSettingsFrontMatterComponent } from './ui-settings-front-matter/ui-settings-front-matter.component';
-import { UiSettingsRepositoryComponent } from './ui-settings-repository/ui-settings-repository.component';
 import { AboutComponent } from './ui/about/about.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { SettingsFrontMatterComponent } from './ui/settings-front-matter/settings-front-matter.component';
+import { SettingsRepositoryComponent } from './ui/settings-repository/settings-repository.component';
 
 
 @NgModule({
@@ -34,8 +34,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MainComponent,
     SettingsComponent,
     ListComponent,
-    UiSettingsFrontMatterComponent,
-    UiSettingsRepositoryComponent,
+    SettingsFrontMatterComponent,
+    SettingsRepositoryComponent,
     AboutComponent
   ],
   imports: [
