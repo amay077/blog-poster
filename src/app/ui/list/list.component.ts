@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { filter, from, map, take } from 'leseq';
+import { parse } from 'src/app/misc/front-matter-parser';
 import { CacheService } from 'src/app/service/cache.service';
 import { GithubService, GHContentMeta, PostMeta } from 'src/app/service/github.service';
 import { SettingsService } from 'src/app/service/settings.service';
@@ -15,6 +17,8 @@ export class ListComponent implements OnInit, OnDestroy {
   loading = false;
   items: readonly PostMeta[] = [];
   readonly hasRepositorySettings: boolean;
+  private idleTaskHandle?: number;
+  private destroyed = false;
 
   constructor(
     private github: GithubService,
@@ -38,9 +42,34 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    window.requestIdleCallback(this.idleTask);
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
+  }
+
+  readonly idleTask = async () => {
+    console.log('It is idle.');
+
+    await new Promise(resolve => setTimeout(resolve, 3000)) // 3秒待つ
+
+    const uncachedNames = from(this.cache.loadPostMetas())
+      .pipe(
+        filter(x => x.title == undefined),
+        map(x => x.name),
+        take(5)
+      );
+
+    for (const nm of uncachedNames) {
+      await this.github.getPost(nm);
+    }
+
+    if (!this.destroyed) {
+      this.idleTaskHandle = window.requestIdleCallback(this.idleTask);
+    }
+
+    return Date.now();
   }
 
   async reload() {
