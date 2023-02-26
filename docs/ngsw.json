@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1677343631284,
+  "timestamp": 1677412877791,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.f25ec43f0da97dbf.js",
+        "./main.97b5b7d7424ac127.js",
         "./manifest.webmanifest",
         "./polyfills.3b4377f0b7f6b7dd.js",
         "./runtime.1e19399f031878d3.js",
@@ -474,6 +474,8 @@
         "./assets/ace-builds/worker-xml.js",
         "./assets/ace-builds/worker-xquery.js",
         "./assets/ace-builds/worker-yaml.js",
+        "./assets/auth-callback.html",
+        "./assets/authorized.html",
         "./assets/icons/icon-128x128.png",
         "./assets/icons/icon-144x144.png",
         "./assets/icons/icon-152x152.png",
@@ -937,6 +939,8 @@
     "./assets/ace-builds/worker-xml.js": "4abc5578060a031f7b55cc251d71b2aeea10bd65",
     "./assets/ace-builds/worker-xquery.js": "1703350ab83d5983ddc0c4c773e80b402534a418",
     "./assets/ace-builds/worker-yaml.js": "39739e41d71751c1f951f2f07b7a7894576702d8",
+    "./assets/auth-callback.html": "eae8f61233c142b598447ce244c8b432f8015d75",
+    "./assets/authorized.html": "33b6302127f45c782708cf5e4139c1f2ecfb3ddc",
     "./assets/icons/icon-128x128.png": "6a6ea2a882d7998986bdd1c46e6c0bbe0e90e8d6",
     "./assets/icons/icon-144x144.png": "ee68e1d4e78033189a4da1dd71e7185c5f809110",
     "./assets/icons/icon-152x152.png": "c1f25bb7ec6c9a159f8ac2ebb6589abf43f00efa",
@@ -951,8 +955,8 @@
     "./fontawesome-webfont.cf011583fb81df9f.woff": "28b782240b3e76db824e12c02754a9731a167527",
     "./fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "./fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
-    "./index.html": "4196c7245ae372b29db7b6526463c0518baa1981",
-    "./main.f25ec43f0da97dbf.js": "5c41c04146a75ce61c8c8cbb6237abb77c23e121",
+    "./index.html": "87bf45b39a0c2ede31ac53e71c88e3f88c050a84",
+    "./main.97b5b7d7424ac127.js": "948e1ccd09fde39ff6439f0e2f9dd1574ad5c974",
     "./manifest.webmanifest": "f4ee64ddb9663e141ce127f8d8ebb9f1db21e7d1",
     "./polyfills.3b4377f0b7f6b7dd.js": "42638f349f5923d480d5e1b1de5d67981e9983a4",
     "./runtime.1e19399f031878d3.js": "492e8d8f71d89ca36a6b39e87635c661995f03d8",
