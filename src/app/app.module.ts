@@ -26,6 +26,8 @@ import { AboutComponent } from './ui/about/about.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SettingsFrontMatterComponent } from './ui/settings-front-matter/settings-front-matter.component';
 import { SettingsRepositoryComponent } from './ui/settings-repository/settings-repository.component';
+import { AuthComponent } from './ui/auth/auth.component';
+import { AuthCallbackComponent } from './ui/auth-callback/auth-callback.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { SettingsRepositoryComponent } from './ui/settings-repository/settings-r
     ListComponent,
     SettingsFrontMatterComponent,
     SettingsRepositoryComponent,
-    AboutComponent
+    AboutComponent,
+    AuthComponent,
+    AuthCallbackComponent
   ],
   imports: [
     BrowserModule,
