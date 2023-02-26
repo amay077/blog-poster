@@ -8,7 +8,7 @@
     const url = new URL(window.location.href);
     console.log("authorized.html", url);
     const code = url?.searchParams?.get('code') ?? '';
-    window.location.href = `index.html#auth-callback/${code}`;
+    window.location.href = `../index.html#auth-callback/${code}`;
   </script>
 </head>
 <body>
