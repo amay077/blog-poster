@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1677413466106,
+  "timestamp": 1677414532842,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -939,8 +939,8 @@
     "./assets/ace-builds/worker-xml.js": "4abc5578060a031f7b55cc251d71b2aeea10bd65",
     "./assets/ace-builds/worker-xquery.js": "1703350ab83d5983ddc0c4c773e80b402534a418",
     "./assets/ace-builds/worker-yaml.js": "39739e41d71751c1f951f2f07b7a7894576702d8",
-    "./assets/auth-callback.html": "611234a91f706948c9866235e9f201eb90950714",
-    "./assets/authorized.html": "7f4dfd514b62e8d65b4cb9b1ed8e9c8957a6baef",
+    "./assets/auth-callback.html": "181463227d16f7655011a1c412d59c49360e3af4",
+    "./assets/authorized.html": "9b0a8578d159fac1de689157df1df5ab7f52d60a",
     "./assets/icons/icon-128x128.png": "6a6ea2a882d7998986bdd1c46e6c0bbe0e90e8d6",
     "./assets/icons/icon-144x144.png": "ee68e1d4e78033189a4da1dd71e7185c5f809110",
     "./assets/icons/icon-152x152.png": "c1f25bb7ec6c9a159f8ac2ebb6589abf43f00efa",
@@ -955,7 +955,7 @@
     "./fontawesome-webfont.cf011583fb81df9f.woff": "28b782240b3e76db824e12c02754a9731a167527",
     "./fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "./fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
-    "./index.html": "20f7c1cbb81adab4b523d1fa84f2b69f0e53c25e",
+    "./index.html": "b544b7470d71d25a81c69610bb29de5ee099d0df",
     "./main.97b5b7d7424ac127.js": "948e1ccd09fde39ff6439f0e2f9dd1574ad5c974",
     "./manifest.webmanifest": "f4ee64ddb9663e141ce127f8d8ebb9f1db21e7d1",
     "./polyfills.3b4377f0b7f6b7dd.js": "42638f349f5923d480d5e1b1de5d67981e9983a4",
