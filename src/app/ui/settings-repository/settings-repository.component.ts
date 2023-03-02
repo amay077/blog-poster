@@ -24,7 +24,6 @@ export class SettingsRepositoryComponent implements OnDestroy {
     private settings: SettingsService) {
 
     const code = route.snapshot.queryParamMap.get('code') ?? '';
-    console.log(`${this.constructor.name} ~ ngOnInit ~ code:`, code);
 
     const model = settings.repository ?? {} as RepositorySettings;
     const controls: any = {};

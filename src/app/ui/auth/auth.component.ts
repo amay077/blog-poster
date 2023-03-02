@@ -30,9 +30,6 @@ export class AuthComponent implements OnInit {
       const state = url?.searchParams?.get('state') ?? '';
 
       this.err = '';
-      // const code = this.route.snapshot.queryParamMap.get('code') ?? '';
-      console.log(`${this.constructor.name} ~ ngOnInit ~ code:`, code);
-      // const state = this.route.snapshot.queryParamMap.get('state') ?? '';
       const accessTokenUrl = `${environment.github_access_token_api_endpoint}?code=${code}`
       const res = await fetch(accessTokenUrl);
 
@@ -47,7 +44,6 @@ export class AuthComponent implements OnInit {
       }
 
       const json = await res.json();
-      console.log(`${this.constructor.name} ~ ngOnInit ~ json:`, json);
       const github_access_token = json.access_token;
       this.settings.repository = {
         ...this.settings.repository,
