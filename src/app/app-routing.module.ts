@@ -7,7 +7,6 @@ import { ListComponent } from './ui/list/list.component';
 import { MainComponent } from './ui/main/main.component';
 import { SettingsComponent } from './ui/settings/settings.component';
 import { AuthComponent } from './ui/auth/auth.component';
-import { AuthCallbackComponent } from './ui/auth-callback/auth-callback.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/list', pathMatch: 'full' } as Route,
@@ -19,7 +18,6 @@ const routes: Routes = [
   { path: 'settings/matter', component: SettingsFrontMatterComponent },
   { path: 'about', component: AboutComponent },
   { path: 'auth', component: AuthComponent },
-  { path: 'auth-callback', component: AuthCallbackComponent },
 ];
 
 @NgModule({
