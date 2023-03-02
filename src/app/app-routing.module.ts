@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'settings/matter', component: SettingsFrontMatterComponent },
   { path: 'about', component: AboutComponent },
   { path: 'auth', component: AuthComponent },
-  { path: 'auth-callback/:code', component: AuthCallbackComponent },
+  { path: 'auth-callback', component: AuthCallbackComponent },
 ];
 
 @NgModule({

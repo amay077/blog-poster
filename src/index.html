@@ -27,6 +27,8 @@
   <script>
   let url = new URL(window.location.href);
 
+  window.searchParams = url.searchParams;
+
   // URLSearchParamsオブジェクトを取得
   console.log('params', url);
 </script>

@@ -9,11 +9,29 @@
       </div>
     </mat-toolbar>
   </div>
-  <div style="height: 100%;">
+  <div class="h-100">
+
+    <div class="container pt-4 mb-1">
+      <div *ngIf="!signedIn" class="col-12">
+        <button class="w-100" button mat-raised-button color="primary" (click)="onSigninWithGitHub()">Sign in with GitHub</button>
+      </div>
+
+      <div *ngIf="signedIn" class="col-12">
+        <button class="w-100" button mat-raised-button color="warn" (click)="onSignoutWithGitHub()">Sign out</button>
+      </div>
+
+    </div>
 
     <form [formGroup]="settingForm">
       <div class="container">
         <div class="row pt-4">
+
+          <!-- <div class="col-12 mb-1">
+            <mat-form-field class="w-100">
+              <mat-label>Personal Access Token</mat-label>
+              <input matInput formControlName="github_access_token" type="password" required placeholder="Personal Access Token">
+            </mat-form-field>
+          </div> -->
 
           <div class="col-12 mb-1">
             <mat-form-field class="w-100">
@@ -26,13 +44,6 @@
             <mat-form-field class="w-100">
               <mat-label>Repository Owner</mat-label>
               <input matInput formControlName="repository_owner" required placeholder="e.g. github.com/uuidjs/uuid → uuidjs">
-            </mat-form-field>
-          </div>
-
-          <div class="col-12 mb-1">
-            <mat-form-field class="w-100">
-              <mat-label>Personal Access Token</mat-label>
-              <input matInput formControlName="github_access_token" type="password" required placeholder="Personal Access Token">
             </mat-form-field>
           </div>
 

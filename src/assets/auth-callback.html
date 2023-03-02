@@ -7,40 +7,8 @@
     const url = new URL(window.location.href);
     console.log("auth-callback.html", url);
     const code = url?.searchParams?.get('code') ?? '';
-    const access_token = url?.searchParams?.get('access_token') ?? '';
-
-    // window.location.href = `../index.html#auth-callback/${code}`;
-
-    const clientId = 'b8628367d18dae68d2d6';
-    const clientSecret = '67e0e880e3d2524a13e6cc18988c05a7aef3fe60';
-    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&client_secret=${clientSecret}`;
-
-    const accessTokenUrl = `https://github.com/login/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`
-
-    if (access_token != '') {
-      console.log('access_token', access_token);
-    } else if (code != '') {
-      // window.location.href = accessTokenUrl;
-      console.log('start');
-
-      (async () => {
-        const res = await fetch(accessTokenUrl, {
-          method: 'POST',
-          headers: {
-            'Access-Control-Allow-Origin': "*",
-            'Accept': 'application/json'
-          },
-        });
-
-        const json = await res.json();
-        console.log('json', json);
-      })().then(() => {
-        console.log('done');
-      });
-
-    } else {
-      window.location.href = authUrl;
-    }
+    const state = url?.searchParams?.get('state') ?? '';
+    window.location.href = `../index.html#auth?code=${code}&state=${state}`;
   </script>
 </head>
 <body>

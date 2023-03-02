@@ -1,3 +1,12 @@
-<p>auth works!</p>
+<div class="d-flex flex-column w-100 h-100 justify-content-center align-items-center">
+  <div *ngIf="status == 'signin'">
+    <span class="h4">Singining...</span>
+  </div>
+  <div *ngIf="status == 'failed'" class="d-flex flex-column" style="gap: 0.2rem;">
+    <span class="h4">Signin Failed</span>
+    <span>{{err}}</span>
+    <button class="w-100" button mat-raised-button color="primary" routerLink="/settings/repo">Back</button>
+  </div>
+</div>
 
-<a [href]="url">auth</a>
+
