@@ -64,13 +64,13 @@ tags:
     delete repository.github_access_token;
 
     // @ts-ignore
-    const app_version = `${window['app_version']}`;
+    const build_at = `${window['build_at']}`;
 
 
     const obj: Settings = {
       posteiro_settings: {
         file_version: '1.0',
-        app_version,
+        build_at,
         export_at: dayjs().toISOString(),
       },
       repository,

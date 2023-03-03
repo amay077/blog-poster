@@ -10,8 +10,8 @@ export class AboutComponent implements OnInit {
   availableUpdate = false;
 
   // @ts-ignore
-  app_version = `${window['app_version']}`;
-  latest_app_version = '';
+  build_at = `${window['build_at']}`;
+  latest_build_at = '';
 
   back() {
     history.back();
@@ -22,9 +22,9 @@ export class AboutComponent implements OnInit {
       const res = await fetch(`version.json?date=${new Date().getTime()}`);
       const json = await res.json();
       console.log(json);
-      this.latest_app_version = json.app_version;
+      this.latest_build_at = json.build_at;
 
-      this.availableUpdate = this.latest_app_version != this.app_version;
+      this.availableUpdate = this.latest_build_at != this.build_at;
     } catch (error) {
       console.warn('fetch version.json failed.', error);
     }
