@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-about',
@@ -9,9 +11,14 @@ export class AboutComponent implements OnInit {
   loading = false;
   availableUpdate = false;
 
+  readonly app_version = environment.app_version;
   // @ts-ignore
-  build_at = `${window['build_at']}`;
+  readonly build_at = `${window['build_at']}`;
   latest_build_at = '';
+
+  constructor(private router: Router) {
+    //
+  }
 
   back() {
     history.back();
@@ -24,7 +31,7 @@ export class AboutComponent implements OnInit {
       console.log(json);
       this.latest_build_at = json.build_at;
 
-      this.availableUpdate = this.latest_build_at != this.build_at;
+      this.availableUpdate = true; //this.latest_build_at != this.build_at;
     } catch (error) {
       console.warn('fetch version.json failed.', error);
     }
@@ -32,6 +39,8 @@ export class AboutComponent implements OnInit {
 
   async updateApps() {
     await updateApp();
+    // await this.router.navigate(['list']);
+
   }
 }
 
@@ -44,6 +53,13 @@ export async function updateApp() {
     for (let registration of registrations) {
       registration.unregister();
     }
+
+    const url = new URL(window.location.origin);
+    url.pathname = window.location.pathname;
+    url.searchParams.set('t', Date.now().toString());
+    console.log(`updateApp ~ url:`, url);
+
+    window.history.replaceState(null, '', url.toString());
     window.location.reload();
   } catch (error) {
     console.log(`[pwa-util]update ~ error`, error);

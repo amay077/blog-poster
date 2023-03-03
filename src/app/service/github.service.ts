@@ -7,6 +7,8 @@ import * as dayjs from 'dayjs';
 import { parse } from '../misc/front-matter-parser';
 import { CacheService } from './cache.service';
 
+export type Result<T> = { ok: true, data: T } | { ok: false, error: string };
+
 export type GHContentMeta = {
   name: string,
   download_url: string,
@@ -30,10 +32,10 @@ export class GithubService {
     private settings: SettingsService,
     private cache: CacheService) { }
 
-  async listPostMetas(): Promise<readonly PostMeta[]> {
+  async listPostMetas(): Promise<Result<readonly PostMeta[]>> {
     const settings = this.settings.repository;
     if (settings == null) {
-      return [];
+      return { ok: false, error: 'GitHub repository settings not found.' };
     }
 
     const token = settings.github_access_token;
@@ -59,7 +61,7 @@ export class GithubService {
     const matterCache = this.cache.postMatterCache;
     if (res.ok) {
       const resJson = await res.json() as GHContentMeta[];
-      return from(resJson).pipe(
+      const data: readonly PostMeta[] = from(resJson).pipe(
         map(x => {
           const metaFull: PostMeta = JSON.parse(JSON.stringify(x));
           const cachedMeta = matterCache.get(x.download_url)
@@ -72,10 +74,11 @@ export class GithubService {
         }),
         orderBy(x => x.name, 'desc'),
         filter(x => x.name.toLowerCase().endsWith('md') || x.name.toLowerCase().endsWith('markdown'))
-      ).toArray();
+      ).toArray()
+      return { ok: true, data };
     } else {
-      console.log(`${this.constructor.name} ~ ngOnInit ~ res.status`, res.status);
-      return [];
+      console.log(`${this.constructor.name} ~ listPostMetas ~ res.status`, res.status, await res.text());
+      return { ok: false, error: `GitHub API failed(${res.status}). Please re-signin.` };
     }
   }
 
@@ -134,10 +137,10 @@ export class GithubService {
         });
       }
 
-      console.log(`${this.constructor.name} ~ ngOnInit ~ resJson`, meta);
+      console.log(`${this.constructor.name} ~ getPost ~ resJson`, meta);
       return { meta, markdown };
     } else {
-      console.log(`${this.constructor.name} ~ ngOnInit ~ res.status`, res.status);
+      console.log(`${this.constructor.name} ~ getPost ~ res.status`, res.status, res.body);
       return undefined;
     }
   }

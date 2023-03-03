@@ -16,7 +16,9 @@ import { browserRefresh } from '../../app.component';
 export class ListComponent implements OnInit, OnDestroy {
   loading = false;
   items: readonly PostMeta[] = [];
+  error: string = '';
   readonly hasRepositorySettings: boolean;
+
   private idleTaskHandle?: number;
   private destroyed = false;
 
@@ -76,8 +78,14 @@ export class ListComponent implements OnInit, OnDestroy {
     try {
       this.loading = true;
       this.items = [];
-      this.items = await this.github.listPostMetas();
-      this.cache.saveGHContentMetas(this.items);
+      const res = await this.github.listPostMetas();
+      if (res.ok) {
+        this.error = '';
+        this.items = res.data;
+        this.cache.saveGHContentMetas(this.items);
+      } else {
+        this.error = res.error;
+      }
     } finally {
       this.loading = false;
     }

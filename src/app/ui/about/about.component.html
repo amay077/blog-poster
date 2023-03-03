@@ -19,6 +19,7 @@
   <span class="mb-4 fw-bold">MORE FAST!</span>
 
   <div class="mb-1 d-flex flex-column align-items-center">
+    <span>Ver: {{build_at}}</span>
     <span>Build: {{build_at}}</span>
     <button *ngIf="availableUpdate" (click)="updateApps()" button mat-raised-button color="accent">Update to {{latest_build_at}}</button>
   </div>

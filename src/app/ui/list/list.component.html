@@ -29,39 +29,47 @@
 </mat-toolbar>
 
 <div class="h-100" style="z-index: 0; padding-top: calc(60px + 10px);">
-  <div *ngIf="hasRepositorySettings" class="container-fluid main-container">
+  <ng-container *ngIf="hasRepositorySettings">
+    <div *ngIf="error == ''" class="container-fluid main-container">
 
-    <mat-card *ngFor="let item of items" (click)="onClickItem(item)" class="main-card">
-      <mat-card-content class="d-flex flex-row align-items-center">
-      <div class="d-flex flex-column justify-content-between gap-1 w-100">
-        <ng-container *ngIf="item?.title != null">
-          <span class="card-header">{{item.name}}</span>
-          <span class="card-title">{{item?.title}}</span>
-          <div class="card-footer">
-            <div class="card-footer-tags">
-              <span *ngFor="let tag of item.tags ?? []" >#{{tag}}</span>
+      <mat-card *ngFor="let item of items" (click)="onClickItem(item)" class="main-card">
+        <mat-card-content class="d-flex flex-row align-items-center">
+        <div class="d-flex flex-column justify-content-between gap-1 w-100">
+          <ng-container *ngIf="item?.title != null">
+            <span class="card-header">{{item.name}}</span>
+            <span class="card-title">{{item?.title}}</span>
+            <div class="card-footer">
+              <div class="card-footer-tags">
+                <span *ngFor="let tag of item.tags ?? []" >#{{tag}}</span>
+              </div>
+              <span class="card-footer-date">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
             </div>
-            <span class="card-footer-date">{{item?.posted_at | date: 'YYYY-MM-dd HH:mm'}}</span>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="item?.title == null">
-          <span class="card-header"></span>
-          <span class="card-title">{{item.name}}</span>
-          <div class="card-footer"></div>
-        </ng-container>
-      </div>
-      <div>
-        <mat-icon>arrow_forward</mat-icon>
-      </div>
-      </mat-card-content>
-    </mat-card>
+          </ng-container>
+          <ng-container *ngIf="item?.title == null">
+            <span class="card-header"></span>
+            <span class="card-title">{{item.name}}</span>
+            <div class="card-footer"></div>
+          </ng-container>
+        </div>
+        <div>
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+        </mat-card-content>
+      </mat-card>
 
-    <!-- botton margin -->
-    <div style="padding-bottom: 15px;"></div>
-  </div>
+      <!-- botton margin -->
+      <div style="padding-bottom: 15px;"></div>
+    </div>
+
+    <div *ngIf="error != ''" class="d-flex flex-column align-items-center p-2" >
+      <span class="mt-4 pt-4">{{error}}</span>
+      <a class="mt-4" routerLink="/settings/repo">Go to Settings -> Repository</a>
+    </div>
+
+  </ng-container>
 
   <div *ngIf="!hasRepositorySettings" class="d-flex flex-column align-items-center p-2" >
-    <span class="mt-4 pt-4">First of all, let’s start with repository setting. </span>
+    <span class="mt-4 pt-4">First , let’s start with repository setting. </span>
     <a class="mt-4" routerLink="/settings/repo">Go to Settings -> Repository</a>
   </div>
 </div>
