@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SettingsService } from 'src/app/service/settings.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-auth',

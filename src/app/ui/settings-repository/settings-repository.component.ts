@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { SettingsService } from 'src/app/service/settings.service';
 import { RepositorySettings } from 'src/app/types/app-settings';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   templateUrl: './settings-repository.component.html',
