@@ -1,6 +1,6 @@
 const Mustache = require('mustache');
 const fs = require('fs');
-const path = require('path');
+const dayjs = require('dayjs');
 
 function rp(files, releaseDate) {
   console.log(`${this.constructor.name}: rp -> files, releaseDate`, files, releaseDate);
@@ -24,7 +24,7 @@ function rp(files, releaseDate) {
 
 console.log('#### START PREBUILD ####');
 
-var releaseDate = new Date().toISOString();
+const releaseDate = dayjs().format('YYYYMMDDHHmm');
 console.log(`release date - ${releaseDate}`);
 
 rp([
