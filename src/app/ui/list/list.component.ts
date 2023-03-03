@@ -29,7 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     settings: SettingsService,
   ) {
 
-    this.hasRepositorySettings = settings?.repository?.github_access_token != null;
+    this.hasRepositorySettings = (settings?.repository?.github_access_token ?? '') != '';
 
     if (browserRefresh) {
       this.cache.clearPostMetas();
