@@ -31,7 +31,7 @@ export class AboutComponent implements OnInit {
       console.log(json);
       this.latest_build_at = json.build_at;
 
-      this.availableUpdate = true; //this.latest_build_at != this.build_at;
+      this.availableUpdate = this.latest_build_at != this.build_at;
     } catch (error) {
       console.warn('fetch version.json failed.', error);
     }
