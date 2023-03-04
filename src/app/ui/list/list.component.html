@@ -33,11 +33,11 @@
     <div *ngIf="error == ''" class="container-fluid main-container">
 
       <mat-card *ngFor="let item of items" (click)="onClickItem(item)" class="main-card">
-        <mat-card-content class="d-flex flex-row align-items-center">
-        <div class="d-flex flex-column justify-content-between gap-1 w-100">
+        <mat-card-content class="d-flex flex-row align-items-center h-100">
+        <div class="d-flex flex-column justify-content-between gap-1 w-100 h-100">
           <ng-container *ngIf="item?.title != null">
             <span class="card-header">{{item.name}}</span>
-            <span class="card-title">{{item?.title}}</span>
+            <span class="card-title h-100">{{item?.title}}</span>
             <div class="card-footer">
               <div class="card-footer-tags">
                 <span *ngFor="let tag of item.tags ?? []" >#{{tag}}</span>
