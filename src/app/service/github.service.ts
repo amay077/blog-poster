@@ -32,7 +32,7 @@ export class GithubService {
     private settings: SettingsService,
     private cache: CacheService) { }
 
-  async listPostMetas(): Promise<Result<readonly PostMeta[]>> {
+  async listPostMetas(): Promise<Result<PostMeta[]>> {
     const settings = this.settings.repository;
     if (settings == null) {
       return { ok: false, error: 'GitHub repository settings not found.' };
@@ -61,7 +61,7 @@ export class GithubService {
     const matterCache = this.cache.postMatterCache;
     if (res.ok) {
       const resJson = await res.json() as GHContentMeta[];
-      const data: readonly PostMeta[] = from(resJson).pipe(
+      const data: PostMeta[] = from(resJson).pipe(
         map(x => {
           const metaFull: PostMeta = JSON.parse(JSON.stringify(x));
           const cachedMeta = matterCache.get(x.download_url)
@@ -74,7 +74,7 @@ export class GithubService {
         }),
         orderBy(x => x.name, 'desc'),
         filter(x => x.name.toLowerCase().endsWith('md') || x.name.toLowerCase().endsWith('markdown'))
-      ).toArray()
+      ).toMutableArray();
       return { ok: true, data };
     } else {
       console.log(`${this.constructor.name} ~ listPostMetas ~ res.status`, res.status, await res.text());

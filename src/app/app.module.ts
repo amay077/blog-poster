@@ -27,6 +27,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { SettingsFrontMatterComponent } from './ui/settings-front-matter/settings-front-matter.component';
 import { SettingsRepositoryComponent } from './ui/settings-repository/settings-repository.component';
 import { AuthComponent } from './ui/auth/auth.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { AuthComponent } from './ui/auth/auth.component';
     MatMenuModule,
     NgxLoadingModule.forRoot({}),
     NgxScrollTopModule,
+    MatSnackBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

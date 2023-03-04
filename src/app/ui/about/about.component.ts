@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { checkUpdate, updateApp } from 'src/app/misc/app-updater';
+import { AppService } from 'src/app/service/app.service';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({
@@ -10,13 +12,12 @@ import { environment } from 'src/environments/environment.prod';
 export class AboutComponent implements OnInit {
   loading = false;
   availableUpdate = false;
-
-  readonly app_version = environment.app_version;
-  // @ts-ignore
-  readonly build_at = `${window['build_at']}`;
+  readonly app_version = this.app.app_version;
+  readonly build_at = this.app.build_at;
   latest_build_at = '';
 
-  constructor(private router: Router) {
+
+  constructor(private router: Router, private app: AppService) {
     //
   }
 
@@ -25,43 +26,12 @@ export class AboutComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    try {
-      const res = await fetch(`version.json?date=${new Date().getTime()}`);
-      const json = await res.json();
-      console.log(json);
-      this.latest_build_at = json.build_at;
-
-      this.availableUpdate = this.latest_build_at != this.build_at;
-    } catch (error) {
-      console.warn('fetch version.json failed.', error);
-    }
+    this.availableUpdate = await this.app.checkUpdate();
+    this.latest_build_at = this.app.latest_build_at;
   }
 
   async updateApps() {
     await updateApp();
-    // await this.router.navigate(['list']);
-
   }
 }
 
-// PWA を強制更新する(Serviceworker のキャッシュを破棄してリロード)
-// https://www.codit.work/codes/pwqxmywbampxtls2k6jc/
-export async function updateApp() {
-  try {
-    const registrations =
-      await window.navigator.serviceWorker.getRegistrations();
-    for (let registration of registrations) {
-      registration.unregister();
-    }
-
-    const url = new URL(window.location.origin);
-    url.pathname = window.location.pathname;
-    url.searchParams.set('t', Date.now().toString());
-    console.log(`updateApp ~ url:`, url);
-
-    window.history.replaceState(null, '', url.toString());
-    window.location.reload();
-  } catch (error) {
-    console.log(`[pwa-util]update ~ error`, error);
-  }
-}
