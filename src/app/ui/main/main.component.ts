@@ -62,10 +62,16 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     this.isMobile = isSmartPhone();
 
+    const preview = route.snapshot.queryParamMap.get('preview');
     if (!this.isMobile) {
-      this.options.showPreviewPanel = true;
+      const defayltPreview = (preview ?? 'true') === 'true';
+      this.options.showPreviewPanel = defayltPreview;
       this.options = Object.assign({}, this.options);
-      this.showPreview = true;
+      this.showPreview = defayltPreview;
+    } else {
+      const defayltPreview = (preview ?? 'false') === 'true';
+      this.mode = defayltPreview ? "preview" : 'editor';
+      this.showPreview = defayltPreview;
     }
 
     const matter = settings.frontMatter;
@@ -133,6 +139,15 @@ ${rendered}
       this.options = Object.assign({}, this.options);
     }
     this.showPreview = !this.showPreview;
+
+    const url = new URL(window.location.href);
+    let hash = url.hash;
+    const queryParamsPos = hash.indexOf('?');
+    if (queryParamsPos > 0) {
+      hash = hash.substring(0, queryParamsPos);
+    }
+    url.hash = `${hash}?preview=${this.showPreview}`;
+    window.history.replaceState('', '', url);
   }
 
   toggleShowPreviewPanel() {
