@@ -191,4 +191,9 @@ export class ListComponent implements OnInit, OnDestroy {
       replaceUrl: true
     });
   }
+
+  onLogoClick() {
+    const firstItem = document.querySelector('.scroll-target');
+    firstItem?.scrollIntoView({ behavior: 'smooth' });
+  }
 }
