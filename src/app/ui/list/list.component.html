@@ -5,8 +5,35 @@
 <mat-toolbar class="px-1" style="position: fixed; top: 0px; z-index: 1; min-height: 60px; max-height: 60px; opacity: 90%;">
   <div class="mx-2 d-flex align-items-center" style="width: 100%;">
     <img title="logo" class="mb-2" style="height:24px; margin-bottom: 0 !important; padding-right: 0.5rem;" src="./assets/logo.jpg" >
-    <span>POSTEIRO</span>
+    <span *ngIf="!enableSearch">POSTEIRO</span>
+    <div [hidden]="!enableSearch"style="position: relative;" class="w-100">
+      <input #inputSearch
+        class="w-100"
+        style="
+          border: none;
+          border-bottom: 1px solid #343a40;
+          outline: none;
+          padding: 0.4rem 0.8rem;
+        "
+        type="text"
+        placeholder="Search posts"
+        [(ngModel)]="searchWord"
+        (ngModelChange)="onChangeSearchWord()">
+      <mat-icon
+        style="
+          position: absolute;
+          top: 50%;
+          right: 4px;
+          transform: translateY(-50%);
+          cursor: pointer;
+        "
+        (click)="onClearSearch()"
+      >close</mat-icon>
+    </div>
   </div>
+  <button *ngIf="!enableSearch" mat-icon-button (click)="onEnableSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
   <button mat-icon-button (click)="reload()">
     <mat-icon>refresh</mat-icon>
   </button>

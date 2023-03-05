@@ -1,10 +1,9 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, from, map, take } from 'leseq';
-import { Subject, takeUntil } from 'rxjs';
-import { checkUpdate, updateApp } from 'src/app/misc/app-updater';
-import { parse } from 'src/app/misc/front-matter-parser';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { updateApp } from 'src/app/misc/app-updater';
 import { AppService } from 'src/app/service/app.service';
 import { CacheService } from 'src/app/service/cache.service';
 import { GithubService, GHContentMeta, PostMeta } from 'src/app/service/github.service';
@@ -19,17 +18,25 @@ import { browserRefresh } from '../../app.component';
 })
 export class ListComponent implements OnInit, OnDestroy {
   loading = false;
+  itemsMaster: PostMeta[] = [];
   items: PostMeta[] = [];
   error: string = '';
   readonly hasRepositorySettings: boolean;
 
+  enableSearch = false;
+  searchWord = '';
+  private readonly searchWordS = new Subject<string>();
+
   private destroyed = false;
   private onDestroy$ = new Subject<void>();
+
+  @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
 
   constructor(
     private github: GithubService,
     private cache: CacheService,
     private router: Router,
+    private route: ActivatedRoute,
     settings: SettingsService,
     private zone: NgZone,
     private snackBar: MatSnackBar,
@@ -42,17 +49,31 @@ export class ListComponent implements OnInit, OnDestroy {
       this.cache.clearPostMetas();
     }
 
-    this.items = this.cache.loadPostMetas();
-    if ((this.items?.length ?? 0) <= 0) {
+    this.searchWord = route.snapshot.queryParamMap.get('q') ?? '';
+    this.enableSearch = this.searchWord != '';
+
+    this.itemsMaster = this.cache.loadPostMetas();
+    console.log(`${this.constructor.name} ~ this.items:`, this.itemsMaster);
+    if ((this.itemsMaster?.length ?? 0) <= 0) {
       (async () => {
         await this.reload();
       })().then(x => {});
+    } else {
+      this.filterPosts();
     }
   }
 
   ngOnInit(): void {
     window?.requestIdleCallback(this.idlePostMetaReaderTask);
     window?.requestIdleCallback(this.idleUpdateCheckerTask);
+
+    this.searchWordS
+      .pipe(takeUntil(this.onDestroy$), distinctUntilChanged(), debounceTime(500))
+      .subscribe(() => {
+        console.log(`this.searchWordS raised`)
+        this.filterPosts();
+        this.updateUrl();
+      });
   }
 
   ngOnDestroy(): void {
@@ -125,8 +146,9 @@ export class ListComponent implements OnInit, OnDestroy {
       const res = await this.github.listPostMetas();
       if (res.ok) {
         this.error = '';
-        this.items = res.data;
-        this.cache.saveGHContentMetas(this.items);
+        this.itemsMaster = res.data;
+        this.cache.saveGHContentMetas(this.itemsMaster);
+        this.filterPosts();
       } else {
         this.error = res.error;
       }
@@ -135,7 +157,38 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
+  private filterPosts() {
+    this.items = this.itemsMaster.filter(x => JSON.stringify(x).indexOf(this.searchWord) >= 0);
+  }
+
   async onClickItem(item: GHContentMeta) {
     await this.router.navigate(['edit', item.name]);
+  }
+
+  async onEnableSearch() {
+    this.enableSearch = true;
+    await new Promise(resolve => setTimeout(resolve, 1));
+    this.inputSearch.nativeElement.focus();
+  }
+
+  onChangeSearchWord() {
+    this.searchWordS.next(this.searchWord);
+  }
+
+  onClearSearch() {
+    this.enableSearch = false;
+    this.searchWord = '';
+    this.filterPosts();
+    this.updateUrl();
+    window.scrollY = 0;
+  }
+
+  private updateUrl() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { q: this.searchWord },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 }

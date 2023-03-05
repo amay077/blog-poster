@@ -140,14 +140,13 @@ ${rendered}
     }
     this.showPreview = !this.showPreview;
 
-    const url = new URL(window.location.href);
-    let hash = url.hash;
-    const queryParamsPos = hash.indexOf('?');
-    if (queryParamsPos > 0) {
-      hash = hash.substring(0, queryParamsPos);
-    }
-    url.hash = `${hash}?preview=${this.showPreview}`;
-    window.history.replaceState('', '', url);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { preview: this.showPreview },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+
   }
 
   toggleShowPreviewPanel() {
