@@ -1,4 +1,4 @@
 {
-  "app_version": "0.9.0",
+  "app_version": "0.9.1",
   "build_at": "<%=RELEASE_DATE%>"
 }
