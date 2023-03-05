@@ -1,14 +1,15 @@
 export async function checkUpdate(current: { build_at: string }): Promise<
-  { hasUpdate: true, build_at: string } | { hasUpdate: false, build_at?: string }
+  { hasUpdate: true, build_at: string, app_version: string } | { hasUpdate: false, build_at?: string, app_version?: string }
 > {
   try {
     const res = await fetch(`version.json?date=${new Date().getTime()}`);
     const json = await res.json();
     console.log(json);
     const build_at = json.build_at;
+    const app_version = json.app_version;
     const hasUpdate = build_at != current.build_at;
 
-    return { hasUpdate, build_at };
+    return { hasUpdate, build_at, app_version };
   } catch (error) {
     console.warn('fetch version.json failed.', error);
     return { hasUpdate: false }

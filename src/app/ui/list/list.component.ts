@@ -130,7 +130,7 @@ export class ListComponent implements OnInit, OnDestroy {
     const hasUpdate = await this.app.checkUpdate()
     if (hasUpdate) {
       this.zone.run(() => {
-        const instance = this.snackBar.open(`App(${this.app.latest_build_at}) available`, `Update`, { duration: 10000 });
+        const instance = this.snackBar.open(`Ver ${this.app.app_version}(${this.app.latest_build_at}) available`, `Update`, { duration: 10000 });
         instance.onAction().pipe(takeUntil(this.onDestroy$)).subscribe(async () => {
           await updateApp();
         });
