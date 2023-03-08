@@ -64,10 +64,10 @@
 </mat-toolbar>
 
 <div class="h-100" style="z-index: 0;">
+  <div class="scroll-target" style="height: 60px;"></div>
   <ng-container *ngIf="hasRepositorySettings">
     <div *ngIf="error == ''" class="container-fluid main-container">
 
-      <div class="scroll-target" style="height: 60px;"></div>
 
       <mat-card *ngFor="let item of items" (click)="onClickItem(item)" class="main-card">
         <mat-card-content class="d-flex flex-row align-items-center h-100">

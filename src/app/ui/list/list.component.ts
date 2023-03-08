@@ -64,8 +64,11 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    window?.requestIdleCallback(this.idlePostMetaReaderTask);
-    window?.requestIdleCallback(this.idleUpdateCheckerTask);
+
+    const f = window.requestIdleCallback ?? setTimeout
+
+    f(this.idlePostMetaReaderTask);
+    f(this.idleUpdateCheckerTask);
 
     this.searchWordS
       .pipe(takeUntil(this.onDestroy$), distinctUntilChanged(), debounceTime(500))
@@ -116,7 +119,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
 
     if (!this.destroyed) {
-      window.requestIdleCallback(this.idlePostMetaReaderTask);
+      const f = window.requestIdleCallback ?? setTimeout;
+      f(this.idlePostMetaReaderTask);
     }
 
     console.log('Finished backgroud post meta reader.', Date.now());
