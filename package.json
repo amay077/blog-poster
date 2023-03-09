@@ -35,6 +35,7 @@
     "leseq": "^1.11.0",
     "ngx-loading": "^15.0.0",
     "ngx-markdown-editor": "^5.0.0",
+    "ngx-skeleton-loader": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "ulid": "^2.3.0",

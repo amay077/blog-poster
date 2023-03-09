@@ -26,8 +26,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { SettingsFrontMatterComponent } from './ui/settings-front-matter/settings-front-matter.component';
 import { SettingsRepositoryComponent } from './ui/settings-repository/settings-repository.component';
 import { AuthComponent } from './ui/auth/auth.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -66,6 +66,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
+
   ],
   providers: [],
   bootstrap: [AppComponent]
