@@ -21,6 +21,12 @@
   border-width: 1px;
 }
 
+.skeleton-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 @media (min-width: 768px) {
   .main-container {
     display: flex;
@@ -36,6 +42,17 @@
 
   .main-card {
     width: calc(50% - 0.5rem - 1rem - 1rem);
+  }
+
+  .main-card-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    width: calc(50% - 0.5rem - 1rem - 1rem);
+    border-radius: 4px;
+    border-color: #F2F2F2;
+    border-style: solid;
+    border-width: 1px;
   }
 }
 

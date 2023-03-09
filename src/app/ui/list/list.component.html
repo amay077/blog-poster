@@ -70,30 +70,10 @@
     <div *ngIf="error == ''" class="container-fluid main-container">
 
       <ng-container *ngIf="loading">
-        <div class="main-card-skeleton" style="padding: 16px; gap: 8px;">
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-        </div>
-        <div class="main-card-skeleton" style="padding: 16px; gap: 8px;">
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-        </div>
-        <div class="main-card-skeleton" style="padding: 16px; gap: 8px;">
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-        </div>
-        <div class="main-card-skeleton" style="padding: 16px; gap: 8px;">
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-        </div>
-        <div class="main-card-skeleton" style="padding: 16px; gap: 8px;">
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
-          <ngx-skeleton-loader style="display: flex; flex-direction: row; align-items: center;" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
+        <div *ngFor="let x of [1,2,3,4,5,6]" class="main-card-skeleton" style="padding: 16px; gap: 8px;">
+          <ngx-skeleton-loader class="skeleton-item" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
+          <ngx-skeleton-loader class="skeleton-item" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '1rem' }" ></ngx-skeleton-loader>
+          <ngx-skeleton-loader class="skeleton-item" [theme]="{ 'margin': '0', 'border-radius': '4px', height: '0.8rem', width: '12rem' }" ></ngx-skeleton-loader>
         </div>
       </ng-container>
 
